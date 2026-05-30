@@ -1,0 +1,21 @@
+{
+  "name": "@ssota-labs/notion-dev-ssot",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Agent skill to bootstrap projects with Notion as development SSOT — AGENTS.md, task/docs databases, and workflow skills.",
+  "author": {
+    "name": "ssota-labs"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ssota-labs/notion-dev-ssot"
+  },
+  "keywords": [
+    "notion",
+    "ssot",
+    "agents-md",
+    "agent-skills",
+    "project-bootstrap"
+  ]
+}
