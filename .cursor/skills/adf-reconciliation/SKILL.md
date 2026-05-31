@@ -19,6 +19,29 @@ Default scope is the full ADF project:
 
 If Task DB is not created yet, mark task-related checks as `N/A` and include `Create ADF Task DB` as P1.
 
+## Validation State Properties
+
+Nodes, Edges, and Tasks use the same reconciliation state contract:
+
+- `정합성 확인됨`: checkbox, true only after the row passed the latest applicable check.
+- `정합성 상태`: `미확인`, `정상`, `주의`, or `깨짐`.
+- `마지막 정합성 확인일`: datetime/date for the last check.
+- `정합성 메모`: short reason or suggested fix.
+
+When another workflow changes a Node, Edge, or Task, it should set `정합성 확인됨 = false` and `정합성 상태 = 미확인` unless it also completed reconciliation in the same operation.
+
+## Scheduled Sweep Mode
+
+Daily scheduled sweeps should stay incremental:
+
+- Start with rows where `정합성 확인됨 != true`.
+- Include rows where `정합성 상태` is empty, `미확인`, `주의`, or `깨짐`.
+- Include completed tasks with missing durable output (`관련 노드`, `관련 엣지`, or `저장소 경로`).
+- Include nodes with `저장소 경로` when repo HEAD changed since the last sweep.
+- Record the run in the current weekly Reconciliation Run Log Knowledge Node (`adf.reconciliation.run-log.YYYY-wNN`) with repo SHA, run time, counts, handled items, and open drifts.
+
+Weekly or user-requested full sweeps may ignore the checkbox and audit all active/draft nodes, active edges, and non-cancelled tasks.
+
 ## Checks
 
 ### A. Node Schema
@@ -81,7 +104,7 @@ For each task (when DB exists):
 
 ## Report Format
 
-Create a Notion node or task note if write tools are available. Otherwise report in chat:
+Append to the current weekly Reconciliation Run Log Knowledge Node if write tools are available. Otherwise report in chat:
 
 ```markdown
 ## ADF Reconciliation — YYYY-MM-DD

@@ -7,6 +7,8 @@
 | `{{PROJECT_OVERVIEW}}` | one-line project description |
 | `{{TASK_PREFIX}}` | task ID prefix |
 | `{{GITHUB_REPO}}` | org/repo |
+| `{{INTEGRATION_BRANCH}}` | branch used by scheduled agent PRs |
+| `{{RELEASE_BRANCH}}` | human promotion branch |
 | `{{PROJECT_URL}}` | Notion project page URL |
 | `{{GOALS_DB_URL}}` / `{{GOALS_DS_ID}}` | Goals database URL / data source ID |
 | `{{CATALOG_DB_URL}}` / `{{CATALOG_DS_ID}}` | Catalog database URL / data source ID |
@@ -15,3 +17,14 @@
 | `{{TASKS_DB_URL}}` / `{{TASKS_DS_ID}}` | Tasks database URL / data source ID |
 | `{{SKILLS_INSTALL_DIR}}` | `.cursor/skills` or `.agents/skills` |
 | `{{BOOTSTRAP_DATE}}` | ISO date |
+
+`.adf/config.json` also records:
+
+| Field | Meaning |
+|---|---|
+| `bootstrapVersion` | shipped bootstrap contract version (currently `0.3`) |
+| `catalogSourceUrl` | canonical ADF catalog source used for duplicate/adopt |
+| `catalogMigrationVersion` | latest catalog migration applied to the instance |
+| `automation.integrationBranch` | branch used by the Dev Task Loop automation |
+| `automation.releaseBranch` | branch reserved for human promotion |
+| `automation.autoCompleteOnScheduler` | whether scheduled runs may mark tasks `완료` after gates pass |

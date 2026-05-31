@@ -22,7 +22,7 @@ Primary deliverable is a **Knowledge Node page** in Notion, not a loose markdown
 5. Draft/update the node body following the catalog template.
 6. Link task via `관련 노드`.
 7. Create/update important graph relationships through `{{PROJECT_SLUG}}-edge-workflow`.
-8. Propose `완료` only if the user asked.
+8. Apply the completion rule for the current run mode: interactive runs propose `완료` only if the user asked; scheduler runs may set `완료` when `.adf/config.json` has `automation.autoCompleteOnScheduler = true` and documentation close-out gates pass.
 
 ## Document Type Guidance
 

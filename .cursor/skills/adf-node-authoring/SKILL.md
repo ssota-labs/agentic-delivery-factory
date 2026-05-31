@@ -70,6 +70,8 @@ Recommended catalog template sections (Korean headings):
 - Create edges for important relationships via `adf-edge-workflow`.
 - Link task row via `관련 노드` when Tasks DB exists.
 - Set `상태 = Active` only when the node is usable as SSOT; otherwise `Draft`.
+- If the node was materially changed and reconciliation did not run in the same operation, set `정합성 확인됨 = false`, `정합성 상태 = 미확인`, and add `정합성 메모` when useful.
+- If the node was reconciled successfully, set `정합성 확인됨 = true`, `정합성 상태 = 정상`, and update `마지막 정합성 확인일`.
 
 ## Anti-patterns
 

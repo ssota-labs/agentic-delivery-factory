@@ -2,6 +2,17 @@
 
 Scope default: full Tasks + Nodes + Edges + repo at audit revision.
 
+## Validation State
+
+Nodes, Edges, and Tasks should include:
+
+- `정합성 확인됨` checkbox
+- `정합성 상태` select: `미확인`, `정상`, `주의`, `깨짐`
+- `마지막 정합성 확인일` date
+- `정합성 메모` text
+
+Daily sweeps start from unchecked or non-normal rows. Full sweeps may ignore these properties.
+
 ## Severity
 
 | Level | Meaning | Example |
@@ -18,6 +29,7 @@ Scope default: full Tasks + Nodes + Edges + repo at audit revision.
 | `완료` task | No durable output in repo, node, edge, or GTM artifact |
 | `진행중` task | No linked node/edge and no current repo activity |
 | `보류` task | No blocker relation or blocker note |
+| Validation state | `정합성 확인됨` true while `정합성 상태` is not `정상` |
 
 ## Axis B — Node ↔ Repo
 

@@ -25,7 +25,8 @@ This skill operates the ADF meta factory itself. Do not use it to bootstrap a ne
 4. Set `상태 = 진행중` only when starting work. Set `진행일` as a datetime (`date:진행일:is_datetime=1`, ISO-8601) at pickup. Use `보류` for blockers. Do not set `완료` unless the user explicitly asks.
 5. Link every non-trivial task to at least one `목표`. If the work does not serve an existing goal, create or request a goal before adding task sprawl.
 6. Link durable output through `관련 노드` and `관련 엣지` when the task creates or changes graph artifacts.
-7. Report: task ID, status change, linked goal, linked nodes/edges, next unblocked task.
+7. When materially changing a task or its linked output, set `정합성 확인됨 = false` and `정합성 상태 = 미확인` unless reconciliation ran in the same operation.
+8. Report: task ID, status change, linked goal, linked nodes/edges, next unblocked task.
 
 ## Task ID Convention
 
@@ -63,6 +64,10 @@ Tracks: `PLAT`, `GTM`, `OPS`. Kinds: `TASKDB`, `NODE`, `EDGE`, `SKILL`, `DOC`, `
 - `관련 노드`
 - `관련 엣지`
 - `선행 작업` / `후행 작업`
+- `정합성 확인됨`
+- `정합성 상태`
+- `마지막 정합성 확인일`
+- `정합성 메모`
 
 ## Dates
 

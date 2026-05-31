@@ -1,6 +1,6 @@
 # Reconciliation Report Template
 
-Store durable reconciliation output in Notion as a Knowledge Node or task note. Do not save reports under repo `docs/` unless the user explicitly asks.
+Store durable reconciliation output in the current weekly Reconciliation Run Log Knowledge Node. Do not save reports under repo `docs/` unless the user explicitly asks.
 
 ```markdown
 # 정합성 체크 — YYYY-MM-DD

@@ -11,7 +11,11 @@ CREATE TABLE (
   "저장소 경로" RICH_TEXT,
   "진행일" DATE COMMENT 'Work start timestamp; set date:진행일:is_datetime=1 with ISO-8601 datetime when starting work',
   "마감일" DATE COMMENT 'Target completion date; typically date-only (date:마감일:is_datetime=0)',
-  "목표" RELATION('GOALS_DS_ID', DUAL '작업' 'tasks')
+  "목표" RELATION('GOALS_DS_ID', DUAL '작업' 'tasks'),
+  "정합성 확인됨" CHECKBOX,
+  "정합성 상태" SELECT('미확인':gray, '정상':green, '주의':yellow, '깨짐':red),
+  "마지막 정합성 확인일" DATE,
+  "정합성 메모" RICH_TEXT
 )
 
 -- Default project-page timeline view:

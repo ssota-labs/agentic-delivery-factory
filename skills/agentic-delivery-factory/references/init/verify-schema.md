@@ -20,6 +20,10 @@ Compare fetched database schemas against the expected ADF instance shape. Use du
 | `범위` | select | yes — Meta, Instance, Shared |
 | `타입` | relation → Catalog | yes |
 | `저장소 경로` | text | recommended |
+| `정합성 확인됨` | checkbox | yes |
+| `정합성 상태` | select | yes — 미확인, 정상, 주의, 깨짐 |
+| `마지막 정합성 확인일` | date | recommended |
+| `정합성 메모` | text | recommended |
 
 ## Expected — Edges database
 
@@ -31,6 +35,10 @@ Compare fetched database schemas against the expected ADF instance shape. Use du
 | `관계 종류` | select | yes |
 | `상태` | select | yes |
 | `메모` | text | recommended |
+| `정합성 확인됨` | checkbox | yes |
+| `정합성 상태` | select | yes — 미확인, 정상, 주의, 깨짐 |
+| `마지막 정합성 확인일` | date | recommended |
+| `정합성 메모` | text | recommended |
 
 ## Expected — Goals database
 
@@ -73,8 +81,36 @@ Every goal must be quantitative. Do not accept goals without numeric `목표값`
 | `관련 노드` | relation → Nodes | yes |
 | `관련 엣지` | relation → Edges | yes |
 | `선행 작업` / `후행 작업` | self relation | yes |
+| `정합성 확인됨` | checkbox | yes |
+| `정합성 상태` | select | yes — 미확인, 정상, 주의, 깨짐 |
+| `마지막 정합성 확인일` | date | recommended |
+| `정합성 메모` | text | recommended |
 
-Project-page task timeline view should use `TIMELINE BY "진행일" TO "마감일"`.
+Project-page task timeline view should mirror the ADF source page: `TIMELINE BY "진행일" TO "진행일"`.
+
+## Expected — Project page layout and views
+
+Use [../schemas/project-page-layout.md](../schemas/project-page-layout.md) as the source manifest.
+
+Required project page order:
+
+1. Factory definition callout
+2. Knowledge Nodes inline linked database
+3. Tasks inline linked database
+4. Goals inline linked database
+5. Reference DB toggle
+6. Toggle children in order: Catalog, Nodes, Edges, Tasks, Goals
+
+Required views:
+
+| Data source | View | Type | Required configuration |
+|---|---|---|---|
+| Nodes | `Active SSOT` | list | `범위 = Instance` (or `Meta` for ADF itself), `상태 in Active/Draft`, sort `키 ASC`, show source property list |
+| Nodes | `카테고리별` | board | same filter, `GROUP BY "카테고리"`, sort `키 ASC`, show source property list |
+| Tasks | `Default view` | timeline | `TIMELINE BY "진행일" TO "진행일"`, sort `진행일 ASC`, `작업 ID ASC`, show `작업`, `작업 유형`, `트랙` |
+| Goals | `Active Goals` | table | `상태 in 대기/진행중/보류`, sort `목표 ID ASC`, show source property list |
+
+If Notion API cannot expose or set a view affordance such as timeline dependency rendering, report the manual parity step. Do not mark project-page parity complete until every API-visible view setting matches the manifest.
 
 ## Report format
 
@@ -100,6 +136,11 @@ Project-page task timeline view should use `TIMELINE BY "진행일" TO "마감�
 - OK:
 - Missing:
 - Extra:
+
+### Project Page Parity
+- OK:
+- Missing:
+- Manual:
 
 ## Suggested fixes
 - ADD COLUMN ... (only if user approved apply)

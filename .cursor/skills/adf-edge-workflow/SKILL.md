@@ -19,6 +19,7 @@ Edges make the factory graph navigable. Create an edge whenever relationship kno
 3. Create or update the edge with `상태 = Active` unless it is speculative (`Draft`).
 4. If the relation is no longer true, prefer `Deprecated` over deletion.
 5. Link the edge to the relevant task through `관련 엣지` when Tasks DB exists.
+6. If reconciliation did not run in the same operation, mark the changed edge and affected task/node rows with `정합성 확인됨 = false` and `정합성 상태 = 미확인`.
 
 ## Edge Properties
 
@@ -30,6 +31,10 @@ Edges make the factory graph navigable. Create an edge whenever relationship kno
 | `관계 종류` | Relationship kind |
 | `상태` | Draft / Active / Deprecated / Archived |
 | `메모` | Optional one-line rationale if available |
+| `정합성 확인됨` | True only after the edge passed reconciliation |
+| `정합성 상태` | 미확인 / 정상 / 주의 / 깨짐 |
+| `마지막 정합성 확인일` | Last reconciliation time |
+| `정합성 메모` | Drift reason or pass note |
 
 ## Relationship Kinds
 

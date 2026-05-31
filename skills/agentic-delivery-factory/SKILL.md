@@ -24,11 +24,14 @@ Use this when the user asks for:
 An instance project should have:
 
 1. Local or remote repository scaffold.
-2. Notion project page.
+2. Notion project page matching the ADF source page layout, linked database view order, filters, sorts, grouping/timeline settings, and visible properties.
 3. Goals, Document Type Catalog, Knowledge Nodes, Knowledge Edges.
 4. Task DB linked to goals, nodes, and edges.
-5. `AGENTS.md` router.
+5. `AGENTS.md` router with request intake gate.
 6. Project-scoped skills for task workflow, node authoring, edge workflow, implementation, and reconciliation.
+7. Dev Task Loop automation draft or installation for dependency-ready scheduled implementation/documentation work.
+8. Daily Reconciliation Sweep runbook node and current weekly run log node.
+9. Cursor Automation for daily reconciliation sweep when automation tools are available.
 
 ## ADF Source Pattern
 
@@ -50,6 +53,9 @@ Read the matching reference before writing files or Notion data:
 | New instance bootstrap | `references/init/wizard.md` |
 | Adopt an existing repo/project | `references/init/adopt-existing.md` |
 | Verify an existing instance schema | `references/init/verify-schema.md` |
+| Catalog duplicate/adopt + migration | `references/catalog/migrations.md` |
+| Dev task loop automation | `references/automations/dev-task-loop.md` |
+| Daily reconciliation automation | `references/automations/daily-reconciliation-sweep.md` |
 
 ## Safety Rules
 
@@ -69,5 +75,8 @@ Tell the user:
 4. Files written (`AGENTS.md`, `.adf/config.json`, project skills)
 5. First suggested task and node to start from
 6. Required graph edges created for bootstrap outputs (spec, workflows, policies, repo paths)
+7. Dev Task Loop automation URL or exact setup still needed
+8. Runbook node and weekly run log node URLs
+9. Daily Reconciliation Sweep automation URL or exact setup still needed
 
-Bootstrap is not complete until the instance graph has edges for important dependencies, not just node rows.
+Bootstrap is not complete until the instance graph has edges for important dependencies, the dev task loop install path is resolved, the daily sweep runbook exists, and every installed automation repo setting matches the instance repo.

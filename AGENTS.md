@@ -8,55 +8,81 @@ Instructions for AI agents working in **ssota-labs/agentic-delivery-factory**.
 
 This repo is the **factory for making factories**. The ADF Notion project is the operating SSOT; the repository stores the reusable skill/package implementation.
 
-| Layer | Role | SSOT |
-|---|---|---|
-| Meta factory | Build and improve the scaffold, skills, templates, and graph conventions | ADF Project + this repo |
-| Instance project | A generated portfolio/client/product project | Its own Notion project + repo |
-| GTM proof | Portfolio, content, delivery partner validation | ADF goals/tasks |
+
+| Layer            | Role                                                                     | SSOT                          |
+| ---------------- | ------------------------------------------------------------------------ | ----------------------------- |
+| Meta factory     | Build and improve the scaffold, skills, templates, and graph conventions | ADF Project + this repo       |
+| Instance project | A generated portfolio/client/product project                             | Its own Notion project + repo |
+| GTM proof        | Portfolio, content, delivery partner validation                          | ADF goals/tasks               |
+
 
 ## Notion SSOT
 
 Start every non-trivial task by loading the relevant Notion context. Do not plan from repository files alone.
 
-| Item | URL |
-|---|---|
-| ADF Project | https://www.notion.so/371346dac456814d9aa5eb7bbe5b1511 |
-| Strategy memo | https://www.notion.so/371346dac456817c978ed58b5e6b39df |
-| Document Type Catalog | https://www.notion.so/371346dac45681e89a65c51ec5825017 |
-| Knowledge Nodes | https://www.notion.so/04e803dbef5243e39ed02ab370d2290b |
-| Knowledge Edges | https://www.notion.so/a2a643eaa6e04981af72bad558115b2c |
-| Goals (project-local) | https://www.notion.so/e4cbfacc00ee49238b04fb99431bf86b |
-| Tasks | https://www.notion.so/6121db0090bf42df96f790bb27b202f4 |
 
-Data source IDs are recorded in [`.adf/config.json`](.adf/config.json). Goals are project-local (`ADF Goals`), not the workspace-wide SSOTA goals tracker.
+| Item                  | URL                                                                                                              |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| ADF Project           | [https://www.notion.so/371346dac456814d9aa5eb7bbe5b1511](https://www.notion.so/371346dac456814d9aa5eb7bbe5b1511) |
+| Strategy memo         | [https://www.notion.so/371346dac456817c978ed58b5e6b39df](https://www.notion.so/371346dac456817c978ed58b5e6b39df) |
+| Document Type Catalog | [https://www.notion.so/371346dac45681e89a65c51ec5825017](https://www.notion.so/371346dac45681e89a65c51ec5825017) |
+| Knowledge Nodes       | [https://www.notion.so/04e803dbef5243e39ed02ab370d2290b](https://www.notion.so/04e803dbef5243e39ed02ab370d2290b) |
+| Knowledge Edges       | [https://www.notion.so/a2a643eaa6e04981af72bad558115b2c](https://www.notion.so/a2a643eaa6e04981af72bad558115b2c) |
+| Goals (project-local) | [https://www.notion.so/e4cbfacc00ee49238b04fb99431bf86b](https://www.notion.so/e4cbfacc00ee49238b04fb99431bf86b) |
+| Tasks                 | [https://www.notion.so/6121db0090bf42df96f790bb27b202f4](https://www.notion.so/6121db0090bf42df96f790bb27b202f4) |
+
+
+Data source IDs are recorded in `[.adf/config.json](.adf/config.json)`. Goals are project-local (`ADF Goals`), not the workspace-wide SSOTA goals tracker.
 
 ## Skill Boundary
 
 ADF uses two skill surfaces. Do not mix them.
 
-| Surface | Role | Location |
-|---|---|---|
-| Internal operating skills | Operate the ADF Notion SSOT and this repo | `.cursor/skills/adf-*` |
-| Shipped bootstrap skill | Create a new instance repo + Notion + skills + config | `skills/agentic-delivery-factory/` |
+
+| Surface                   | Role                                                  | Location                           |
+| ------------------------- | ----------------------------------------------------- | ---------------------------------- |
+| Internal operating skills | Operate the ADF Notion SSOT and this repo             | `.cursor/skills/adf-`*             |
+| Shipped bootstrap skill   | Create a new instance repo + Notion + skills + config | `skills/agentic-delivery-factory/` |
+
 
 Instance bootstrap execution belongs in the shipped skill, not in internal `.cursor/skills/`. Internal work may define or validate bootstrap spec nodes and run reconciliation against bootstrap output, but it does not execute instance creation.
 
-Operating contract SSOT: Knowledge Node `adf.v0-1.agentic-operating-system` (Draft).
+Operating contract SSOT: Knowledge Node `adf.v0-1.agentic-operating-system` (Active).
 
 ## ADF Router
 
 For any request, classify intent first and read the matching skill before acting.
 
-| User intent | Route | Read |
-|---|---|---|
-| 태스크 만들기, 작업 진행, task board, ADF-P* | Task workflow | `.cursor/skills/adf-task-workflow/SKILL.md` |
-| 노드 문서 작성, node 생성/수정, SSOT 문서화 | Node authoring | `.cursor/skills/adf-node-authoring/SKILL.md` |
-| 엣지 생성, 관계 연결, graph relation | Edge workflow | `.cursor/skills/adf-edge-workflow/SKILL.md` |
-| 정합성 체크, 누락 노드/엣지, graph audit | Reconciliation | `.cursor/skills/adf-reconciliation/SKILL.md` |
-| 새 instance bootstrap, scaffold, adopt existing repo | Shipped bootstrap skill | `skills/agentic-delivery-factory/SKILL.md` |
-| ADF meta factory repo/skills/templates 수정 | Implementation work | Use this AGENTS.md plus repository conventions below |
+
+| User intent                                         | Route                   | Read                                                 |
+| --------------------------------------------------- | ----------------------- | ---------------------------------------------------- |
+| 태스크 만들기, 작업 진행, task board, ADF-P*                  | Task workflow           | `.cursor/skills/adf-task-workflow/SKILL.md`          |
+| 노드 문서 작성, node 생성/수정, SSOT 문서화                      | Node authoring          | `.cursor/skills/adf-node-authoring/SKILL.md`         |
+| 엣지 생성, 관계 연결, graph relation                        | Edge workflow           | `.cursor/skills/adf-edge-workflow/SKILL.md`          |
+| 정합성 체크, 누락 노드/엣지, graph audit                       | Reconciliation          | `.cursor/skills/adf-reconciliation/SKILL.md`         |
+| 새 instance bootstrap, scaffold, adopt existing repo | Shipped bootstrap skill | `skills/agentic-delivery-factory/SKILL.md`           |
+| ADF meta factory repo/skills/templates 수정           | Implementation work     | Use this AGENTS.md plus repository conventions below |
+
 
 If Notion write tools are unavailable, do the repository work and leave exact Notion commands or DDL in `notion/` for a later MCP-enabled pass. Do not invent IDs or pretend a Notion write happened.
+
+## Request Intake Gate
+
+Before starting non-trivial work, decide explicitly:
+
+| Question | If yes | If no |
+|---|---|---|
+| Does this need a Knowledge Node? | Create or update via `adf-node-authoring` before or during the work | Record why chat-only is enough |
+| Does this need a Task row? | Create or pick up via `adf-task-workflow`, link `목표`, set `진행중` at start | Keep the work conversational only when truly trivial |
+| Does this need graph edges? | Create/update via `adf-edge-workflow` | Note prose-only risk in task or node memo |
+
+Close-out rules:
+
+1. Record durable output in nodes/edges/repo paths, not only chat.
+2. Link the task through `관련 노드` and `관련 엣지` when graph artifacts changed.
+3. Set `정합성 확인됨 = false` and `정합성 상태 = 미확인` on materially changed rows unless reconciliation ran in the same operation.
+4. Propose `완료` only when the user explicitly asks.
+5. Report task ID, node/edge evidence, repo paths, and next step.
 
 ## Knowledge Graph Rules
 
@@ -75,6 +101,23 @@ Required node properties:
 Use `카테고리` select for operational grouping. It intentionally duplicates the catalog category because Notion board grouping by rollup is unreliable through automation.
 
 Edges are first-class SSOT. Create an edge when a node defines, depends on, supersedes, implements, validates, or references another node.
+
+## Reconciliation State
+
+Nodes, Edges, and Tasks carry validation-state properties:
+
+- `정합성 확인됨`: checked when the row passed the latest applicable reconciliation.
+- `정합성 상태`: `미확인`, `정상`, `주의`, or `깨짐`.
+- `마지막 정합성 확인일`: when reconciliation last evaluated the row.
+- `정합성 메모`: one-line reason or suggested fix when not normal.
+
+When you materially edit a Node, Edge, or Task, mark that row as needing reconciliation:
+
+- Set `정합성 확인됨 = false`.
+- Set `정합성 상태 = 미확인`, or `주의` / `깨짐` when you already know the risk.
+- Add a short `정합성 메모` if the reason is not obvious.
+
+Daily reconciliation sweeps use these properties to avoid re-reading the full graph. Weekly/full reconciliation may ignore them and audit all active/draft graph rows.
 
 ## Repository Layout
 
@@ -95,12 +138,13 @@ skills/agentic-delivery-factory/
 ADF applies the same loop to itself that it ships to instances:
 
 1. Classify intent through this router.
-2. Load relevant Goals, Tasks, Nodes, and Edges from Notion.
-3. Read the catalog page template before writing a node.
-4. Execute the smallest repo or Notion change needed.
-5. Create or update edges for meaningful dependencies.
-6. Run reconciliation, including edge graph checks.
-7. Close out with task status, node/edge evidence, and repo paths.
+2. Run the request intake gate.
+3. Load relevant Goals, Tasks, Nodes, and Edges from Notion.
+4. Read the catalog page template before writing a node.
+5. Execute the smallest repo or Notion change needed.
+6. Create or update edges for meaningful dependencies.
+7. Run reconciliation, including edge graph checks.
+8. Close out with task status, node/edge evidence, repo paths, and next step.
 
 ## Development Workflow
 

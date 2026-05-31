@@ -1,10 +1,21 @@
 {
   "version": 1,
+  "bootstrapVersion": "0.3",
+  "catalogSourceUrl": "https://www.notion.so/371346dac45681e89a65c51ec5825017",
+  "catalogMigrationVersion": "0.2",
   "projectSlug": "{{PROJECT_SLUG}}",
   "projectName": "{{PROJECT_NAME}}",
   "taskIdPrefix": "{{TASK_PREFIX}}",
   "githubRepo": "{{GITHUB_REPO}}",
   "skillsInstallDir": "{{SKILLS_INSTALL_DIR}}",
+  "automation": {
+    "mode": "scheduler-and-sweep",
+    "integrationBranch": "{{INTEGRATION_BRANCH}}",
+    "releaseBranch": "{{RELEASE_BRANCH}}",
+    "autoCompleteOnScheduler": true,
+    "devTaskLoopCron": "*/5 * * * *",
+    "dailyReconciliationCron": "0 9 * * *"
+  },
   "notion": {
     "projectUrl": "{{PROJECT_URL}}",
     "goalsDatabaseUrl": "{{GOALS_DB_URL}}",
