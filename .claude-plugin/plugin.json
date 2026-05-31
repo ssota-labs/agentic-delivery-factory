@@ -1,17 +1,18 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
-  "name": "notion-dev-ssot",
+  "name": "agentic-delivery-factory",
   "version": "0.1.0",
-  "description": "Bootstrap a project with Notion as development SSOT — private task/docs databases, AGENTS.md, and project-scoped workflow skills.",
+  "description": "Bootstrap agentic delivery instance projects with Notion Knowledge Graph, task board, AGENTS.md, and project-scoped workflow skills.",
   "author": {
     "name": "ssota-labs"
   },
   "license": "MIT",
-  "homepage": "https://github.com/ssota-labs/notion-dev-ssot",
-  "repository": "https://github.com/ssota-labs/notion-dev-ssot",
+  "homepage": "https://github.com/ssota-labs/agentic-delivery-factory",
+  "repository": "https://github.com/ssota-labs/agentic-delivery-factory",
   "keywords": [
+    "agentic-delivery",
     "notion",
-    "ssot",
+    "knowledge-graph",
     "agents-md",
     "project-bootstrap",
     "agent-skills"

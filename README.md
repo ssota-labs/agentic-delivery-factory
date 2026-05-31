@@ -1,94 +1,44 @@
-# notion-dev-ssot
+# agentic-delivery-factory
 
-Notion을 **개발 SSOT**(Single Source of Truth)로 쓰는 프로젝트를 에이전트가 직접 세팅하는 [Agent Skill](https://skills.sh) 패키지입니다.
+**Agentic Delivery Factory (ADF)** is the meta-factory for spinning up agentic delivery projects: repo scaffold, Notion project, Knowledge Nodes/Edges, task board, and project-scoped agent workflows.
 
-- Private Notion **개발 태스크 DB** + **문서 DB** 생성(또는 기존 DB adopt)
-- 대상 repo에 **`AGENTS.md`**, **`.ssot/config.json`**, **`.cursor/skills/{projectSlug}-*`** 워크플로 스킬 설치
-- youpd-skills에서 검증된 Development router / documentation / implementation / reconciliation / version-bootstrap 패턴 일반화
+This repository contains the reusable skill package and the internal ADF operating skills used to manage the factory itself.
 
-## Prerequisites
+## Notion SSOT
 
-- [Notion MCP](https://cursor.com) (Cursor Notion workspace plugin) 연결
-- 대상 Git repository (로컬 경로)
+| Item | URL |
+|---|---|
+| ADF Project | https://www.notion.so/371346dac456814d9aa5eb7bbe5b1511 |
+| Strategy memo | https://www.notion.so/371346dac456817c978ed58b5e6b39df |
+| Document Type Catalog | https://www.notion.so/371346dac45681e89a65c51ec5825017 |
+| Knowledge Nodes | https://www.notion.so/04e803dbef5243e39ed02ab370d2290b |
+| Knowledge Edges | https://www.notion.so/a2a643eaa6e04981af72bad558115b2c |
+| Goals (project-local) | https://www.notion.so/e4cbfacc00ee49238b04fb99431bf86b |
+| Tasks | https://www.notion.so/6121db0090bf42df96f790bb27b202f4 |
 
-## Install (skills.sh)
+The ADF project-local Goals and Tasks DBs are connected in Notion and recorded in [`.adf/config.json`](.adf/config.json).
+
+## What This Repo Builds
+
+- A distributable `agentic-delivery-factory` skill for bootstrapping instance projects.
+- ADF project workflow skills for task handling, node authoring, edge creation, and reconciliation.
+- Templates and operating rules for generated projects.
+
+## Layout
+
+```text
+skills/agentic-delivery-factory/     # distributable factory bootstrap skill
+.cursor/skills/adf-*                 # internal ADF project management skills
+.adf/config.json                       # ADF Notion IDs and conventions
+AGENTS.md                            # agent operating router
+```
+
+## Local Verification
 
 ```bash
-npx skills add ssota-labs/notion-dev-ssot@notion-dev-ssot
+python3 -m json.tool package.json >/dev/null
+python3 -m json.tool .adf/config.json >/dev/null
+rg "legacy repo slug" .
 ```
 
-또는 Claude Code plugin / marketplace 경로로 `skills/` 디렉터리를 설치합니다.
-
-## Usage
-
-대상 프로젝트 workspace에서 에이전트에게 요청:
-
-```text
-이 프로젝트 Notion SSOT 세팅해줘
-```
-
-또는:
-
-```text
-AGENTS.md 만들고 Notion 개발 태스크 보드 연결해줘
-```
-
-에이전트는 `notion-dev-ssot` 스킬을 로드한 뒤 `references/init/wizard.md` 절차를 따릅니다.
-
-### Init flow (요약)
-
-1. 프로젝트 slug, task prefix, GitHub repo 등 질문
-2. Notion private DB 2개 생성 **또는** 기존 URL adopt
-3. Relation 연결 (`관련 문서`, `Blocked by`, `Blocking`)
-4. `AGENTS.md`, `.ssot/config.json` 생성
-5. `{slug}-documentation-workflow` 등 4개 workflow skill 복사
-
-### Adopt existing Notion
-
-```text
-기존 Notion 개발 태스크/문서 DB URL로 adopt해줘
-```
-
-→ `references/init/adopt-existing.md` + schema verification
-
-## Package layout
-
-```text
-skills/notion-dev-ssot/
-  SKILL.md                 # Router
-  references/
-    init/                  # wizard, adopt, verify
-    schemas/               # Notion DDL + relations
-    templates/             # AGENTS.md.tpl, config.json.tpl
-    bundled/cursor-skills/ # Copied into target project on init
-```
-
-## Placeholders (init 시 치환)
-
-| Placeholder | Meaning |
-|---|---|
-| `{{PROJECT_SLUG}}` | kebab-case (skill folder prefix) |
-| `{{PROJECT_NAME}}` | Display name |
-| `{{TASK_PREFIX}}` | Task ID prefix (e.g. `YPDS`) |
-| `{{GITHUB_REPO}}` | `org/repo` |
-| `{{TASKS_DB_URL}}` / `{{DOCS_DB_URL}}` | Notion database URLs |
-| `{{SKILLS_INSTALL_DIR}}` | `.cursor/skills` (default) |
-
-## Optional: Notion MCP in target repo
-
-Cursor에서 Notion 도구를 쓰려면 대상 repo에 Notion plugin MCP가 활성화되어 있어야 합니다. Cursor Settings → MCP → Notion workspace plugin.
-
-## Manual verification checklist
-
-After changing this package:
-
-1. `wc -l skills/notion-dev-ssot/SKILL.md` — router ≤200 lines
-2. `rg '{{PROJECT_SLUG}}' skills/notion-dev-ssot/references/bundled` — placeholders present in all 4 skills
-3. Dry-run wizard against a throwaway repo (no commit) and confirm:
-   - `AGENTS.md` Development router links resolve to `{slug}-*` skills
-   - `.ssot/config.json` parses as JSON after placeholder replacement
-4. Adopt path: `verify-schema.md` reports missing properties without auto-ALTER
-
-## License
-
-MIT — ssota-labs
+The legacy repo slug should not appear in active instructions.

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "projectSlug": "agentic-delivery-factory",
+  "projectName": "Agentic Delivery Factory — 공장 구축 & GTM",
+  "taskIdPrefix": "ADF",
+  "githubRepo": "ssota-labs/agentic-delivery-factory",
+  "notion": {
+    "projectUrl": "https://www.notion.so/371346dac456814d9aa5eb7bbe5b1511",
+    "strategyMemoUrl": "https://www.notion.so/371346dac456817c978ed58b5e6b39df",
+    "catalogDatabaseUrl": "https://www.notion.so/371346dac45681e89a65c51ec5825017",
+    "catalogDataSourceId": "collection://c63346da-c456-83e8-9a6c-0761ab378479",
+    "nodesDatabaseUrl": "https://www.notion.so/04e803dbef5243e39ed02ab370d2290b",
+    "nodesDataSourceId": "collection://5c132d44-02c7-4b8c-96ea-e2a3bfeb41fa",
+    "edgesDatabaseUrl": "https://www.notion.so/a2a643eaa6e04981af72bad558115b2c",
+    "edgesDataSourceId": "collection://f9567f0b-8ff2-434d-b011-31ce4d4d1372",
+    "goalsDatabaseUrl": "https://www.notion.so/e4cbfacc00ee49238b04fb99431bf86b",
+    "goalsDataSourceId": "collection://c7e43434-93b9-4616-81ea-cce3f23bf782",
+    "tasksDatabaseUrl": "https://www.notion.so/6121db0090bf42df96f790bb27b202f4",
+    "tasksDataSourceId": "collection://b0b5515b-00b4-4a2c-ae31-e591c048cd72"
+  },
+  "nodeCategories": [
+    "Agreement",
+    "Product",
+    "UX/UI",
+    "Design System",
+    "Engineering",
+    "QA",
+    "Ops",
+    "Handoff"
+  ],
+  "nodeScopes": [
+    "Meta",
+    "Instance",
+    "Shared"
+  ],
+  "nodeStatuses": [
+    "Draft",
+    "Active",
+    "Deprecated",
+    "Archived"
+  ]
+}

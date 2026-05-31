@@ -1,19 +1,20 @@
 {
-  "name": "@ssota-labs/notion-dev-ssot",
+  "name": "@ssota-labs/agentic-delivery-factory",
   "version": "0.1.0",
   "private": false,
-  "description": "Agent skill to bootstrap projects with Notion as development SSOT — AGENTS.md, task/docs databases, and workflow skills.",
+  "description": "Agent skill kit for bootstrapping agentic delivery factory instance projects with Notion Knowledge Graph, task board, AGENTS.md, and workflow skills.",
   "author": {
     "name": "ssota-labs"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ssota-labs/notion-dev-ssot"
+    "url": "https://github.com/ssota-labs/agentic-delivery-factory"
   },
   "keywords": [
+    "agentic-delivery",
     "notion",
-    "ssot",
+    "knowledge-graph",
     "agents-md",
     "agent-skills",
     "project-bootstrap"

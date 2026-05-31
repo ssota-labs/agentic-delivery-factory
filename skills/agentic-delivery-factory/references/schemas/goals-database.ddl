@@ -1,0 +1,22 @@
+CREATE TABLE (
+  "목표" TITLE,
+  "목표 ID" RICH_TEXT COMMENT 'Stable goal id, e.g. {{TASK_PREFIX}}-GOAL-001',
+  "상태" SELECT('대기':gray, '진행중':blue, '보류':orange, '완료':green, '취소':red),
+  "트랙" SELECT('Platform':blue, 'GTM':green, 'Ops':orange),
+  "우선순위" SELECT('High':red, 'Medium':yellow, 'Low':gray),
+  "범위" SELECT('Meta':purple, 'Instance':blue, 'Shared':green),
+  "KPI 영역" SELECT('콘텐츠 반응':green, '유료 판매':red, '실행 산출물':yellow, 'Platform 구축':blue),
+  "지표" SELECT('콘텐츠 발행 수':green, '총 반응 수':blue, '판매 페이지 공개':yellow, '유료 구매 수':red, '유료 매출':purple, 'Platform milestone 완료':purple),
+  "기준값" NUMBER COMMENT 'Starting value, usually 0',
+  "현재값" NUMBER COMMENT 'Measured progress toward 목표값',
+  "목표값" NUMBER COMMENT 'Required numeric outcome',
+  "단위" SELECT('개':default, '건':blue, '원':green),
+  "달성률" FORMULA('if(prop("목표값") > 0, prop("현재값") / prop("목표값"), 0)') COMMENT '현재값 / 목표값',
+  "시작일" DATE,
+  "마감일" DATE,
+  "측정 기준" RICH_TEXT COMMENT 'How 현재값 is counted',
+  "요약" RICH_TEXT,
+  "상위 목표" RELATION('GOALS_DS_ID', DUAL '하위 목표' 'sub_goals'),
+  "하위 목표" RELATION('GOALS_DS_ID', DUAL '상위 목표' 'parent_goal'),
+  "작업" RELATION('TASKS_DS_ID', DUAL '목표' 'goal')
+)
