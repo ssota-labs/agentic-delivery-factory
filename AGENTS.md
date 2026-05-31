@@ -74,6 +74,7 @@ Before starting non-trivial work, decide explicitly:
 |---|---|---|
 | Does this need a Knowledge Node? | Create or update via `adf-node-authoring` before or during the work | Record why chat-only is enough |
 | Does this need a Task row? | Create or pick up via `adf-task-workflow`, link `목표`, set `진행중` at start | Keep the work conversational only when truly trivial |
+| Does the task scope span multiple responsibilities? | Split into a task chain per [Task Responsibility Unit Policy](https://www.notion.so/371346dac456816eb007f998d44f4602) (`adf.task-policy.responsibility-unit` v1.0) | Keep one task only if deliverable, work type, and close-out gate are single |
 | Does this need graph edges? | Create/update via `adf-edge-workflow` | Note prose-only risk in task or node memo |
 
 Close-out rules:
@@ -83,6 +84,17 @@ Close-out rules:
 3. Set `정합성 확인됨 = false` and `정합성 상태 = 미확인` on materially changed rows unless reconciliation ran in the same operation.
 4. Propose `완료` only when the user explicitly asks.
 5. Report task ID, node/edge evidence, repo paths, and next step.
+
+## Task Responsibility Unit Policy
+
+Policy SSOT: Knowledge Node [`adf.task-policy.responsibility-unit`](https://www.notion.so/371346dac456816eb007f998d44f4602) (**v1.0**).
+
+- One task row = one primary deliverable, one `작업 유형`, one close-out gate.
+- Do not combine design/policy, skill authoring, implementation, and verification in one task.
+- Split into a chain with `선행 작업`, `후행 작업`, and `종속성`; link `목표` to the direct leading KPI only.
+- Cancel umbrella tasks when the user says responsibilities do not align.
+
+Internal skill reference: `.cursor/skills/adf-task-workflow/references/responsibility-unit.md`. Shipped instance copy: `skills/agentic-delivery-factory/references/bundled/cursor-skills/task-workflow/references/responsibility-unit.md`.
 
 ## Knowledge Graph Rules
 

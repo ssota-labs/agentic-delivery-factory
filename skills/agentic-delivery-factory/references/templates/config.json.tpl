@@ -1,6 +1,7 @@
 {
   "version": 1,
-  "bootstrapVersion": "0.3",
+  "bootstrapVersion": "0.4",
+  "taskPolicyVersion": "1.0",
   "catalogSourceUrl": "https://www.notion.so/371346dac45681e89a65c51ec5825017",
   "catalogMigrationVersion": "0.2",
   "projectSlug": "{{PROJECT_SLUG}}",

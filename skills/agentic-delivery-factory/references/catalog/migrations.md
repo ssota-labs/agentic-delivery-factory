@@ -18,7 +18,8 @@ Record these in the instance `.adf/config.json` after catalog setup:
 
 ```json
 {
-  "bootstrapVersion": "0.3",
+  "bootstrapVersion": "0.4",
+  "taskPolicyVersion": "1.0",
   "catalogSourceUrl": "https://www.notion.so/371346dac45681e89a65c51ec5825017",
   "catalogMigrationVersion": "0.2",
   "automation": {
@@ -97,6 +98,17 @@ After the v0.2 graph additions, ensure the instance also has:
 - a Cursor Automation draft or created automation from `references/automations/dev-task-loop.md`
 
 Do not enable the dev task loop until repo, branch, PR, check-run, and Notion MCP preflight passes.
+
+### Instance operating policy additions introduced in 0.4
+
+After the v0.3 automation additions, ensure the instance also has:
+
+- `bootstrapVersion = 0.4` and `taskPolicyVersion = 1.0` in `.adf/config.json`
+- bundled `task-workflow/references/responsibility-unit.md` installed under `{SKILLS_INSTALL_DIR}`
+- `AGENTS.md` Task Rules referencing responsibility-unit policy when `taskPolicyVersion >= 1.0`
+- optional seeded Knowledge Node `{PROJECT_SLUG}.task-policy.responsibility-unit` copied from ADF policy or linked as Shared reference
+
+Upgrade path from 0.3: bump config markers, copy the new task-workflow reference, and patch `AGENTS.md` Task Rules. Do not require re-bootstrap.
 
 ## Failure handling
 

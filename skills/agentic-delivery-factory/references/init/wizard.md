@@ -47,7 +47,7 @@ Catalog rules:
 - Source: https://www.notion.so/371346dac45681e89a65c51ec5825017
 - Prefer duplicate/adopt over CSV/MD reconstruction.
 - If source access is unavailable, stop and ask for shared access or explicit fallback approval.
-- After catalog setup, set `bootstrapVersion = 0.3`, `catalogMigrationVersion = 0.2`, `integrationBranch`, and `releaseBranch` in `.adf/config.json`.
+- After catalog setup, set `bootstrapVersion = 0.4`, `taskPolicyVersion = 1.0`, `catalogMigrationVersion = 0.2`, `integrationBranch`, and `releaseBranch` in `.adf/config.json`.
 
 ## Phase 2 — Seed
 

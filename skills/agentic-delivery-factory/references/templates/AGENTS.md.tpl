@@ -38,6 +38,7 @@ Before starting non-trivial work, decide explicitly:
 |---|---|---|
 | Does this need a Knowledge Node? | Create or update via node authoring before or during the work | Record why chat-only is enough |
 | Does this need a Task row? | Create or pick up a task, link `목표`, set `진행중` at start | Keep the work conversational only when truly trivial |
+| Does the task scope span multiple responsibilities? | Split into a task chain; read `{{PROJECT_SLUG}}-task-workflow/references/responsibility-unit.md` when `taskPolicyVersion >= 1.0` | Keep one task only if deliverable, work type, and close-out gate are single |
 | Does this need graph edges? | Create/update edges for dependencies, definitions, or validations | Note prose-only risk in task or node memo |
 
 Interactive close-out rules:
@@ -91,7 +92,8 @@ If scheduler close-out gates fail, set `상태 = 보류` with a blocker note ins
 ## Task Rules
 
 - `상태`: `대기` / `진행중` / `보류` / `완료` / `취소`.
-- Every non-trivial task should link to at least one `목표`.
+- **Responsibility unit (taskPolicyVersion ≥ 1.0)**: one task = one primary deliverable, one `작업 유형`, one close-out gate. Split design, skill, implementation, and verification into a chain with `선행 작업`, `후행 작업`, and `종속성`. Read `{{SKILLS_INSTALL_DIR}}/{{PROJECT_SLUG}}-task-workflow/references/responsibility-unit.md`.
+- Every non-trivial task should link to at least one `목표` (direct leading KPI).
 - Interactive runs should not set `완료` unless the user explicitly asks.
 - Scheduler runs may set `완료` when `automation.autoCompleteOnScheduler = true` and close-out gates pass.
 - Implementation tasks should link relevant `관련 노드`; graph tasks should link `관련 엣지`.

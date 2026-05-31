@@ -22,7 +22,8 @@
 
 | Field | Meaning |
 |---|---|
-| `bootstrapVersion` | shipped bootstrap contract version (currently `0.3`) |
+| `bootstrapVersion` | shipped bootstrap contract version (currently `0.4`) |
+| `taskPolicyVersion` | task responsibility unit policy version (currently `1.0`) |
 | `catalogSourceUrl` | canonical ADF catalog source used for duplicate/adopt |
 | `catalogMigrationVersion` | latest catalog migration applied to the instance |
 | `automation.integrationBranch` | branch used by the Dev Task Loop automation |
