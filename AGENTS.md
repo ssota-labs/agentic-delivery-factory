@@ -196,3 +196,39 @@ rg "legacy repo slug" .
 ```
 
 Remaining matches are allowed only in migration notes or historical references.
+
+## Cursor Cloud specific instructions
+
+This repository is a **skills and documentation meta-factory** — there is no dev server, Docker stack, or `package.json` install step. Cloud agents operate on Markdown skills, JSON config/schemas, and the external Notion SSOT.
+
+### What runs locally
+
+| Check | Command |
+| --- | --- |
+| JSON config | `python3 -m json.tool package.json >/dev/null` and `python3 -m json.tool .adf/config.json >/dev/null` |
+| Preset manifests | `python3 skills/agentic-delivery-factory/references/presets/validate-manifests.py` |
+| Legacy slug grep | `rg "legacy repo slug" .` — matches only in docs describing the check are OK |
+
+There is no dedicated linter or test runner. `package.json` is publish metadata only (no `dependencies` or `scripts`).
+
+### Notion MCP (workflow E2E)
+
+ADF work is incomplete without Notion. Enable the **Notion** MCP server in the environment before task/node/edge operations.
+
+- Machine-readable IDs: `.adf/config.json` (`notion.*DataSourceId` and database URLs).
+- Typical flow: `notion-fetch` on the ADF project page or a database URL → `notion-search` / `notion-query-database-view` for rows.
+- Active Platform tasks view: `https://www.notion.so/6121db0090bf42df96f790bb27b202f4?v=371346da-c456-8192-b814-000cdd8bc500`
+- If Notion writes are unavailable, do repo work and leave exact DDL/commands under `notion/` — do not invent IDs.
+
+### Skill routing
+
+| Context | Read first |
+| --- | --- |
+| Inside this meta-factory repo | `AGENTS.md` router → `.cursor/skills/adf-*` |
+| Bootstrapping a new instance project | `skills/agentic-delivery-factory/SKILL.md` (not `adf-*`) |
+
+### Gotchas
+
+- **No hot reload**: editing skills does not restart anything; re-read the file in the agent session.
+- **Do not run instance bootstrap** against production Notion from a casual env-setup pass unless the user asked for it.
+- **Ripgrep**: use `rg` (preinstalled); the legacy-slug check is documentation hygiene, not a failing test if only README/AGENTS mention the phrase.
