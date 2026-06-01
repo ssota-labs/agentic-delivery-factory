@@ -1,8 +1,12 @@
 {
   "manifestVersion": "1.0",
-  "stackId": "stk.supabase-auth",
+  "adapterId": "apt.supabase-auth",
   "label": "Supabase Auth",
-  "compatibleSurfaces": ["surf.web-saas", "surf.mobile-app", "surf.api-backend"],
+  "compatibleSurfaces": [
+    "surf.web-saas",
+    "surf.mobile-app",
+    "surf.api-backend"
+  ],
   "policySeeds": [
     {
       "policyRole": "policy.supabase-auth",
@@ -16,7 +20,11 @@
       "requiredSections": [
         "auth role coverage",
         "session boundary coverage"
-      ]
+      ],
+      "sectionGuidance": {
+        "auth role coverage": "List authenticated, anonymous, owner/member/admin, and invalid-session roles that must be covered by tests or manual verification.",
+        "session boundary coverage": "Describe tests for session creation, persistence, refresh/expiry, sign-out, and unauthorized access after session loss."
+      }
     },
     {
       "targetPolicyRole": "policy.qa-env-test-data",
@@ -24,14 +32,21 @@
       "requiredSections": [
         "seed users and roles",
         "OAuth provider test accounts"
-      ]
+      ],
+      "sectionGuidance": {
+        "seed users and roles": "Define required seed accounts, roles, ownership relationships, and reset rules for reproducible auth/data tests.",
+        "OAuth provider test accounts": "Define provider-specific test accounts, callback URLs, redirect expectations, and any manual setup required outside repo code."
+      }
     },
     {
       "targetPolicyRole": "policy.e2e-scenarios",
       "targetCatalogType": "E2E Scenario List",
       "requiredSections": [
         "auth/session flow"
-      ]
+      ],
+      "sectionGuidance": {
+        "auth/session flow": "Describe sign-in, callback/session establishment, protected-route access, and sign-out as an end-to-end scenario."
+      }
     }
   ],
   "catalogCandidates": [],
@@ -42,7 +57,9 @@
         "gateClass": "Auth boundary change",
         "summary": "Functional Spec or API Spec + Supabase auth/session/OAuth policy Active",
         "blocks": "auth provider, OAuth, JWT/session, auth callback implementation",
-        "requiredPolicyRoles": ["policy.supabase-auth"]
+        "requiredPolicyRoles": [
+          "policy.supabase-auth"
+        ]
       }
     ],
     "verification": [
@@ -51,7 +68,10 @@
         "gateClass": "Auth verification",
         "summary": "E2E Scenario List + Test Run Report cover sign-in, session persistence, and sign-out",
         "blocks": "auth verification close-out",
-        "requiredPolicyRoles": ["policy.supabase-auth", "policy.e2e-scenarios"]
+        "requiredPolicyRoles": [
+          "policy.supabase-auth",
+          "policy.e2e-scenarios"
+        ]
       }
     ]
   },

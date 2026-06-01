@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": [
     "manifestVersion",
-    "stackId",
+    "adapterId",
     "label",
     "compatibleSurfaces",
     "policySeeds",
@@ -17,9 +17,9 @@
       "type": "string",
       "const": "1.0"
     },
-    "stackId": {
+    "adapterId": {
       "type": "string",
-      "pattern": "^stk\\.[a-z0-9-]+$"
+      "pattern": "^apt\\.[a-z0-9-]+$"
     },
     "label": {
       "type": "string",
@@ -75,11 +75,11 @@
       "properties": {
         "requires": {
           "type": "array",
-          "items": { "type": "string", "pattern": "^stk\\.[a-z0-9-]+$" }
+          "items": { "type": "string", "pattern": "^apt\\.[a-z0-9-]+$" }
         },
         "conflicts": {
           "type": "array",
-          "items": { "type": "string", "pattern": "^stk\\.[a-z0-9-]+$" }
+          "items": { "type": "string", "pattern": "^apt\\.[a-z0-9-]+$" }
         }
       }
     }
@@ -106,7 +106,7 @@
     "policyContribution": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["targetPolicyRole", "targetCatalogType", "requiredSections"],
+      "required": ["targetPolicyRole", "targetCatalogType", "requiredSections", "sectionGuidance"],
       "properties": {
         "targetPolicyRole": {
           "type": "string",
@@ -121,6 +121,14 @@
           "minItems": 1,
           "items": { "type": "string", "minLength": 1 },
           "uniqueItems": true
+        },
+        "sectionGuidance": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },

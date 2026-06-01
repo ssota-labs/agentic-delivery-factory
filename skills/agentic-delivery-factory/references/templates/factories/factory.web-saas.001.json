@@ -21,12 +21,12 @@
     "port.workflow"
   ],
   "defaultAdapters": {
-    "port.hosting": "stk.vercel",
-    "port.database": "stk.supabase-db",
-    "port.auth": "stk.supabase-auth",
-    "port.ui-kit": "stk.shadcn-ui",
-    "port.e2e": "stk.playwright-e2e",
-    "port.component-catalog": "stk.storybook-openpencil"
+    "port.hosting": "apt.vercel",
+    "port.database": "apt.supabase-db",
+    "port.auth": "apt.supabase-auth",
+    "port.ui-kit": "apt.shadcn-ui",
+    "port.e2e": "apt.playwright-e2e",
+    "port.component-catalog": "apt.storybook-openpencil"
   },
   "requiredNodeTypes": {
     "projectPersistent": [

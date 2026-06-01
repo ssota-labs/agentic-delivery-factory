@@ -19,7 +19,7 @@
 | `{{FACTORY_TEMPLATE_ID}}` | selected Factory Template ID, e.g. `factory.web-saas.001` |
 | `{{BOOTSTRAP_DATE}}` | ISO date |
 | `{{DELIVERY_SURFACES_JSON}}` | JSON array, e.g. `["surf.web-saas"]` |
-| `{{DELIVERY_STACKS_JSON}}` | JSON array, e.g. `["stk.vercel","stk.supabase"]` |
+| `{{DELIVERY_STACKS_JSON}}` | JSON array, e.g. `["apt.vercel","apt.supabase"]` |
 | `{{GATE_MODE}}` | `full` or `legacy` |
 | `{{PROFILE_ID}}` | resolved profile alias or empty string |
 

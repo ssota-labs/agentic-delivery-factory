@@ -1,6 +1,6 @@
 {
   "manifestVersion": "1.0",
-  "stackId": "stk.shadcn-ui",
+  "adapterId": "apt.shadcn-ui",
   "label": "shadcn / Base UI",
   "compatibleSurfaces": ["surf.web-saas"],
   "policySeeds": [

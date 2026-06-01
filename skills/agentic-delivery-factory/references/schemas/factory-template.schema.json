@@ -60,7 +60,7 @@
       },
       "additionalProperties": {
         "type": "string",
-        "pattern": "^stk\\.[a-z0-9-]+$"
+        "pattern": "^apt\\.[a-z0-9-]+$"
       }
     },
     "requiredNodeTypes": {

@@ -36,18 +36,18 @@ Surface owns **Test Strategy** and other foundation catalog types. Stack manifes
 
 | Stack ID | Layer | Compatible surfaces |
 |---|---|---|
-| `stk.vercel` | Runtime / deploy | `surf.web-saas`, `surf.mcp-tool` |
-| `stk.supabase` | Data / auth | `surf.web-saas`, `surf.mobile-app`, `surf.api-backend` |
-| `stk.supabase-db` | Data / database | `surf.web-saas`, `surf.mobile-app`, `surf.api-backend` |
-| `stk.supabase-auth` | Auth / session | `surf.web-saas`, `surf.mobile-app`, `surf.api-backend` |
-| `stk.shadcn-ui` | UI kit | `surf.web-saas` only |
-| `stk.playwright-e2e` | E2E automation | `surf.web-saas` only |
-| `stk.storybook-openpencil` | Component feedback | `surf.web-saas` only |
-| `stk.none` | Legacy bypass | any with `gateMode=legacy` |
+| `apt.vercel` | Runtime / deploy | `surf.web-saas`, `surf.mcp-tool` |
+| `apt.supabase` | Data / auth | `surf.web-saas`, `surf.mobile-app`, `surf.api-backend` |
+| `apt.supabase-db` | Data / database | `surf.web-saas`, `surf.mobile-app`, `surf.api-backend` |
+| `apt.supabase-auth` | Auth / session | `surf.web-saas`, `surf.mobile-app`, `surf.api-backend` |
+| `apt.shadcn-ui` | UI kit | `surf.web-saas` only |
+| `apt.playwright-e2e` | E2E automation | `surf.web-saas` only |
+| `apt.storybook-openpencil` | Component feedback | `surf.web-saas` only |
+| `apt.none` | Legacy bypass | any with `gateMode=legacy` |
 
-Stack Adapter manifest paths: `references/presets/{stackId}.manifest.json`.
+Stack Adapter manifest paths: `references/presets/{adapterId}.manifest.json`.
 
-### Stack contract — `stk.supabase`
+### Stack Adapter contract — `apt.supabase`
 
 | Layer | Artifact | Role |
 |---|---|---|
@@ -55,24 +55,24 @@ Stack Adapter manifest paths: `references/presets/{stackId}.manifest.json`.
 | Policy contributions | → Test Strategy, QA Environment & Test Data Policy, E2E Scenario List | Required **sections** on surface foundation docs — no duplicate catalog tasks |
 | Implementation gates | `supabase-schema-change`, `supabase-env-binding-change`, `supabase-auth-boundary-change` | Block impl until stack policies Active |
 | Verification gates | `supabase-rls-access-matrix`, `supabase-migration-smoke`, `supabase-e2e-auth-data` | Block verification until evidence present |
-| Runbook | `references/presets/guides/stk.supabase-rls-review.md` | How to produce RLS evidence (not gate SSOT) |
+| Runbook | `references/presets/guides/apt.supabase-rls-review.md` | How to produce RLS evidence (not gate SSOT) |
 
-When `stk.vercel` is also selected, Matrix §6.3 adds `policy.combined-supabase-vercel-ops` for preview/env wiring — not duplicated in Supabase manifest alone.
+When `apt.vercel` is also selected, Matrix §6.3 adds `policy.combined-supabase-vercel-ops` for preview/env wiring — not duplicated in Supabase manifest alone.
 
 ## Profile resolution (§4.3)
 
 | Surface(s) | Stacks | Resolved `profileId` |
 |---|---|---|
-| `surf.web-saas` | `stk.vercel`, `stk.shadcn-ui` | `prof.web-vercel-shadcn` |
-| `surf.web-saas` | `stk.vercel`, `stk.supabase`, `stk.shadcn-ui` | `prof.web-full-stack` |
-| `surf.web-saas` | `factory.web-saas.001` defaults (`stk.vercel`, `stk.supabase-db`, `stk.supabase-auth`, `stk.shadcn-ui`, `stk.playwright-e2e`, `stk.storybook-openpencil`) | `prof.web-full-stack` (legacy alias until Composition Contract migration) |
-| `surf.api-backend` | `stk.supabase` | `prof.api-supabase-lean` |
-| `surf.mobile-app` | `stk.supabase` (+ platform TBD) | `prof.mobile-full-stack` |
-| `surf.mcp-tool` | `stk.vercel` or none | `prof.mcp-lean` |
-| any | `stk.none` + legacy | `prof.legacy-v04` |
+| `surf.web-saas` | `apt.vercel`, `apt.shadcn-ui` | `prof.web-vercel-shadcn` |
+| `surf.web-saas` | `apt.vercel`, `apt.supabase`, `apt.shadcn-ui` | `prof.web-full-stack` |
+| `surf.web-saas` | `factory.web-saas.001` defaults (`apt.vercel`, `apt.supabase-db`, `apt.supabase-auth`, `apt.shadcn-ui`, `apt.playwright-e2e`, `apt.storybook-openpencil`) | `prof.web-full-stack` (legacy alias until Composition Contract migration) |
+| `surf.api-backend` | `apt.supabase` | `prof.api-supabase-lean` |
+| `surf.mobile-app` | `apt.supabase` (+ platform TBD) | `prof.mobile-full-stack` |
+| `surf.mcp-tool` | `apt.vercel` or none | `prof.mcp-lean` |
+| any | `apt.none` + legacy | `prof.legacy-v04` |
 | other valid combo | — | `prof.composed.{surfaceSig}.{stackSig}` or omit |
 
-**Invalid** (wizard block/warn): `stk.shadcn-ui` without `surf.web-saas`; product stacks with `gateMode=legacy`; `stk.none` with non-legacy product profile.
+**Invalid** (wizard block/warn): `apt.shadcn-ui` without `surf.web-saas`; product stacks with `gateMode=legacy`; `apt.none` with non-legacy product profile.
 
 ## Reference profiles — catalog types (§6.2)
 
@@ -97,7 +97,7 @@ Composer unions surface foundation types + profile §6.2 + stack `catalogCandida
 | `prof.mobile-full-stack` | Test Strategy; mobile platform/release policy; backend auth/data policy; Supabase policy summary; store/release checklist policy |
 | `prof.mcp-lean` | Tool/API contract policy; deploy/runtime policy summary |
 
-When `stk.supabase` + `stk.vercel` both selected for web-full-stack, composer seeds **one** combined ops policy (`policy.combined-supabase-vercel-ops`), not separate duplicate ops tasks per stack.
+When `apt.supabase` + `apt.vercel` both selected for web-full-stack, composer seeds **one** combined ops policy (`policy.combined-supabase-vercel-ops`), not separate duplicate ops tasks per stack.
 
 Stack manifest `policySeeds` merge by `policyRole`. Same role from two stacks → one policy node + per-stack subsections in source trace.
 
@@ -148,7 +148,7 @@ Procedure: `references/schemas/policy-composer.md`.
 
 - **Factory Template** for the user-selected package, e.g. `factory.web-saas.001`
 - **Stack Port** for abstract slots, e.g. `port.database`
-- **Stack Adapter** for selected implementations, e.g. `stk.supabase-db`
+- **Stack Adapter** for selected implementations, e.g. `apt.supabase-db`
 - **Composition Contract** for the generated result formerly approximated by `profileId`
 
 Factory Template source: `references/templates/factories/factory.web-saas.001.json`. The detailed design contract is maintained in the ADF Knowledge Node `adf.stack-node-composition.fullstack-service-baseline`.

@@ -40,7 +40,7 @@ def validate_manifest(manifest: dict, path: Path) -> list[str]:
 
     required = [
         "manifestVersion",
-        "stackId",
+        "adapterId",
         "label",
         "compatibleSurfaces",
         "policySeeds",
@@ -53,9 +53,9 @@ def validate_manifest(manifest: dict, path: Path) -> list[str]:
     if manifest.get("manifestVersion") != "1.0":
         errors.append(f"{path.name}: manifestVersion must be \"1.0\"")
 
-    stack_id = manifest.get("stackId", "")
-    if not re.fullmatch(r"stk\.[a-z0-9-]+", stack_id):
-        errors.append(f"{path.name}: invalid stackId `{stack_id}`")
+    adapter_id = manifest.get("adapterId", "")
+    if not re.fullmatch(r"apt\.[a-z0-9-]+", adapter_id):
+        errors.append(f"{path.name}: invalid adapterId `{adapter_id}`")
 
     for surface in manifest.get("compatibleSurfaces", []):
         if not re.fullmatch(r"surf\.[a-z0-9-]+", surface):
@@ -77,6 +77,7 @@ def validate_manifest(manifest: dict, path: Path) -> list[str]:
         target_role = contribution.get("targetPolicyRole", "")
         target_catalog = contribution.get("targetCatalogType", "")
         sections = contribution.get("requiredSections", [])
+        guidance = contribution.get("sectionGuidance", {})
 
         if not re.fullmatch(r"policy\.[a-z0-9-]+", target_role):
             errors.append(f"{path.name}: invalid targetPolicyRole `{target_role}`")
@@ -89,6 +90,16 @@ def validate_manifest(manifest: dict, path: Path) -> list[str]:
             errors.append(
                 f"{path.name}: policyContribution `{target_role}` requires at least one requiredSections entry"
             )
+        if not isinstance(guidance, dict) or not guidance:
+            errors.append(
+                f"{path.name}: policyContribution `{target_role}` requires sectionGuidance for every required section"
+            )
+        else:
+            missing_guidance = [section for section in sections if not guidance.get(section)]
+            if missing_guidance:
+                errors.append(
+                    f"{path.name}: policyContribution `{target_role}` missing sectionGuidance for {missing_guidance}"
+                )
 
     gate_candidates = manifest.get("gateCandidates", {})
     for section in ("implementation", "verification"):
@@ -112,7 +123,7 @@ def validate_manifest(manifest: dict, path: Path) -> list[str]:
 
 
 def main() -> int:
-    manifest_paths = sorted(PRESETS_DIR.glob("stk.*.manifest.json"))
+    manifest_paths = sorted(PRESETS_DIR.glob("apt.*.manifest.json"))
     if not manifest_paths:
         print("No Stack Adapter manifests found.", file=sys.stderr)
         return 1
@@ -128,14 +139,14 @@ def main() -> int:
         except json.JSONDecodeError as exc:
             all_errors.append(f"{path.name}: invalid JSON — {exc}")
             continue
-        if manifest.get("stackId") != path.stem.replace(".manifest", ""):
+        if manifest.get("adapterId") != path.stem.replace(".manifest", ""):
             all_errors.append(
-                f"{path.name}: stackId `{manifest.get('stackId')}` must match filename stem"
+                f"{path.name}: adapterId `{manifest.get('adapterId')}` must match filename stem"
             )
         all_errors.extend(validate_manifest(manifest, path))
 
     if all_errors:
-        print("Preset manifest validation failed:")
+        print("Stack Adapter manifest validation failed:")
         for error in all_errors:
             print(f"  - {error}")
         return 1

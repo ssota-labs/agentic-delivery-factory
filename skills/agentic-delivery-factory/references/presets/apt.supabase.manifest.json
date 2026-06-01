@@ -1,8 +1,12 @@
 {
   "manifestVersion": "1.0",
-  "stackId": "stk.supabase",
+  "adapterId": "apt.supabase",
   "label": "Supabase",
-  "compatibleSurfaces": ["surf.web-saas", "surf.mobile-app", "surf.api-backend"],
+  "compatibleSurfaces": [
+    "surf.web-saas",
+    "surf.mobile-app",
+    "surf.api-backend"
+  ],
   "policySeeds": [
     {
       "policyRole": "policy.supabase-data-auth",
@@ -21,7 +25,12 @@
         "RLS access matrix",
         "auth role coverage",
         "migration smoke scope"
-      ]
+      ],
+      "sectionGuidance": {
+        "RLS access matrix": "Add a table of roles, allowed operations, denied operations, and the specific RLS policy or test evidence that proves each boundary.",
+        "auth role coverage": "List authenticated, anonymous, owner/member/admin, and invalid-session roles that must be covered by tests or manual verification.",
+        "migration smoke scope": "Describe which schema migrations must be applied/reset in a non-prod environment and what command/log proves the migration path is healthy."
+      }
     },
     {
       "targetPolicyRole": "policy.qa-env-test-data",
@@ -31,7 +40,13 @@
         "seed users and roles",
         "service role handling",
         "reset and cleanup strategy"
-      ]
+      ],
+      "sectionGuidance": {
+        "Supabase project/env mapping": "Document local, preview, staging, and production Supabase project bindings, including which environment variables point to each project.",
+        "seed users and roles": "Define required seed accounts, roles, ownership relationships, and reset rules for reproducible auth/data tests.",
+        "service role handling": "State where service-role credentials may be used, where they are forbidden, and how tests avoid leaking service privileges to client code.",
+        "reset and cleanup strategy": "Explain how test data is reset between local, preview, and CI runs, including destructive-operation safeguards."
+      }
     },
     {
       "targetPolicyRole": "policy.e2e-scenarios",
@@ -40,7 +55,12 @@
         "auth/session flow",
         "data persistence flow",
         "RLS negative case"
-      ]
+      ],
+      "sectionGuidance": {
+        "auth/session flow": "Describe sign-in, callback/session establishment, protected-route access, and sign-out as an end-to-end scenario.",
+        "data persistence flow": "Describe the user or system flow that creates, reads, updates, and verifies persisted data across request boundaries.",
+        "RLS negative case": "Include at least one denied-access scenario proving another user or anonymous session cannot read or mutate protected data."
+      }
     }
   ],
   "catalogCandidates": [],
@@ -51,21 +71,28 @@
         "gateClass": "Data / schema change",
         "summary": "PRD + Tech Spec or API Spec + Supabase data/auth policy Active",
         "blocks": "schema/RLS/migration impl",
-        "requiredPolicyRoles": ["policy.supabase-data-auth"]
+        "requiredPolicyRoles": [
+          "policy.supabase-data-auth"
+        ]
       },
       {
         "checkId": "supabase-env-binding-change",
         "gateClass": "Env / test data change",
         "summary": "QA Environment & Test Data Policy + Supabase test fixtures policy Active",
         "blocks": "env vars, seed scripts, auth fixture wiring",
-        "requiredPolicyRoles": ["policy.qa-env-test-data", "policy.supabase-test-fixtures"]
+        "requiredPolicyRoles": [
+          "policy.qa-env-test-data",
+          "policy.supabase-test-fixtures"
+        ]
       },
       {
         "checkId": "supabase-auth-boundary-change",
         "gateClass": "Auth boundary change",
         "summary": "Functional Spec or API Spec + Supabase data/auth policy Active",
         "blocks": "auth provider, JWT/session, RLS policy impl",
-        "requiredPolicyRoles": ["policy.supabase-data-auth"]
+        "requiredPolicyRoles": [
+          "policy.supabase-data-auth"
+        ]
       }
     ],
     "verification": [
@@ -74,27 +101,34 @@
         "gateClass": "Data verification",
         "summary": "Test Run Report includes positive/negative role access evidence",
         "blocks": "data-layer verification close-out",
-        "requiredPolicyRoles": ["policy.supabase-data-auth"],
-        "skillRef": "references/presets/guides/stk.supabase-rls-review.md"
+        "requiredPolicyRoles": [
+          "policy.supabase-data-auth"
+        ],
+        "skillRef": "references/presets/guides/apt.supabase-rls-review.md"
       },
       {
         "checkId": "supabase-migration-smoke",
         "gateClass": "Migration verification",
         "summary": "Test Run Report or migration log shows apply/reset smoke in non-prod env",
         "blocks": "schema migration verification close-out",
-        "requiredPolicyRoles": ["policy.supabase-data-auth"]
+        "requiredPolicyRoles": [
+          "policy.supabase-data-auth"
+        ]
       },
       {
         "checkId": "supabase-e2e-auth-data",
         "gateClass": "Automated E2E",
         "summary": "E2E Scenario List + Test Run Report cover auth/session and data persistence",
         "blocks": "Supabase-backed E2E verification close-out",
-        "requiredPolicyRoles": ["policy.e2e-scenarios", "policy.supabase-test-fixtures"]
+        "requiredPolicyRoles": [
+          "policy.e2e-scenarios",
+          "policy.supabase-test-fixtures"
+        ]
       }
     ]
   },
   "skillRefs": [
-    "references/presets/guides/stk.supabase-rls-review.md"
+    "references/presets/guides/apt.supabase-rls-review.md"
   ],
   "compatibilityHints": {
     "requires": [],

@@ -1,8 +1,12 @@
 {
   "manifestVersion": "1.0",
-  "stackId": "stk.supabase-db",
+  "adapterId": "apt.supabase-db",
   "label": "Supabase Database",
-  "compatibleSurfaces": ["surf.web-saas", "surf.mobile-app", "surf.api-backend"],
+  "compatibleSurfaces": [
+    "surf.web-saas",
+    "surf.mobile-app",
+    "surf.api-backend"
+  ],
   "policySeeds": [
     {
       "policyRole": "policy.supabase-data",
@@ -16,7 +20,11 @@
       "requiredSections": [
         "RLS access matrix",
         "migration smoke scope"
-      ]
+      ],
+      "sectionGuidance": {
+        "RLS access matrix": "Add a table of roles, allowed operations, denied operations, and the specific RLS policy or test evidence that proves each boundary.",
+        "migration smoke scope": "Describe which schema migrations must be applied/reset in a non-prod environment and what command/log proves the migration path is healthy."
+      }
     },
     {
       "targetPolicyRole": "policy.qa-env-test-data",
@@ -25,7 +33,12 @@
         "Supabase project/env mapping",
         "service role handling",
         "reset and cleanup strategy"
-      ]
+      ],
+      "sectionGuidance": {
+        "Supabase project/env mapping": "Document local, preview, staging, and production Supabase project bindings, including which environment variables point to each project.",
+        "service role handling": "State where service-role credentials may be used, where they are forbidden, and how tests avoid leaking service privileges to client code.",
+        "reset and cleanup strategy": "Explain how test data is reset between local, preview, and CI runs, including destructive-operation safeguards."
+      }
     },
     {
       "targetPolicyRole": "policy.e2e-scenarios",
@@ -33,10 +46,16 @@
       "requiredSections": [
         "data persistence flow",
         "RLS negative case"
-      ]
+      ],
+      "sectionGuidance": {
+        "data persistence flow": "Describe the user or system flow that creates, reads, updates, and verifies persisted data across request boundaries.",
+        "RLS negative case": "Include at least one denied-access scenario proving another user or anonymous session cannot read or mutate protected data."
+      }
     }
   ],
-  "catalogCandidates": ["Data Model Spec"],
+  "catalogCandidates": [
+    "Data Model Spec"
+  ],
   "gateCandidates": {
     "implementation": [
       {
@@ -44,7 +63,9 @@
         "gateClass": "Data / schema change",
         "summary": "Data Model Spec + Supabase database/RLS/migration policy Active",
         "blocks": "schema/RLS/migration implementation",
-        "requiredPolicyRoles": ["policy.supabase-data"]
+        "requiredPolicyRoles": [
+          "policy.supabase-data"
+        ]
       }
     ],
     "verification": [
@@ -53,20 +74,24 @@
         "gateClass": "Data verification",
         "summary": "Test Run Report includes positive/negative role access evidence",
         "blocks": "data-layer verification close-out",
-        "requiredPolicyRoles": ["policy.supabase-data"],
-        "skillRef": "references/presets/guides/stk.supabase-rls-review.md"
+        "requiredPolicyRoles": [
+          "policy.supabase-data"
+        ],
+        "skillRef": "references/presets/guides/apt.supabase-rls-review.md"
       },
       {
         "checkId": "supabase-db-migration-smoke",
         "gateClass": "Migration verification",
         "summary": "Migration log or Test Run Report shows apply/reset smoke in non-prod env",
         "blocks": "schema migration verification close-out",
-        "requiredPolicyRoles": ["policy.supabase-data"]
+        "requiredPolicyRoles": [
+          "policy.supabase-data"
+        ]
       }
     ]
   },
   "skillRefs": [
-    "references/presets/guides/stk.supabase-rls-review.md"
+    "references/presets/guides/apt.supabase-rls-review.md"
   ],
   "compatibilityHints": {
     "requires": [],

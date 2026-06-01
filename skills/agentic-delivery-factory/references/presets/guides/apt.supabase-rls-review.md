@@ -1,6 +1,6 @@
 # Supabase RLS review — verification runbook
 
-**Stack**: `stk.supabase`  
+**Stack Adapter**: `apt.supabase-db`  
 **Gate checkId**: `supabase-rls-access-matrix`  
 **Policy SSOT**: `{PROJECT_SLUG}.policy.supabase-data-auth` (instance node keyed from `policy.supabase-data-auth`)
 

@@ -21,7 +21,7 @@ Ask in one batch:
 | `factoryTemplateId` | Factory Template ID from `references/templates/factories/*.json`; default `factory.web-saas.001` |
 | `surfaces[]` | 1..n from `references/schemas/delivery-profile-matrix.md` §3.1; default `surf.web-saas` |
 | `stacks[]` | 0..n stack IDs; filter by compatible surfaces; default per profile or empty |
-| `gateMode` | `full` (default) or `legacy` (`stk.none` only) |
+| `gateMode` | `full` (default) or `legacy` (`apt.none` only) |
 
 Summarize Factory Template, surfaces, Stack Adapter defaults/overrides, legacy `profileId` if still used, and gate mode. Get explicit approval before Notion writes or file overwrites.
 
