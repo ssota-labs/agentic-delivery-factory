@@ -10,7 +10,7 @@
 |---|---|
 | Profile Matrix | `references/schemas/delivery-profile-matrix.md` |
 | Stage Map | `references/schemas/delivery-workflow-stage-map.md` |
-| Preset manifests | `references/presets/{stackId}.manifest.json` |
+| Stack Adapter manifests | `references/presets/{stackId}.manifest.json` |
 | Instance config | `.adf/config.json` — `surfaces`, `stacks`, `gateMode`, `profileId` |
 
 ## Output
@@ -30,7 +30,7 @@ Composer MUST NOT set gate policy **Active** without explicit human confirmation
 | 1 | Validate intake vs Matrix invalid combinations; abort or human override with memo |
 | 2 | If `gateMode=legacy` → write minimal policy referencing Stage Map §6/§7 only; skip steps 3–8 dynamic merge |
 | 3 | Load surface foundation + gate scope from Matrix for each selected surface; **stricter union** if multi-surface |
-| 4 | Load each selected stack manifest; merge `policySeeds`, `policyContributions`, `catalogCandidates`, `gateCandidates` |
+| 4 | Load each selected Stack Adapter manifest; merge `policySeeds`, `policyContributions`, `catalogCandidates`, `gateCandidates` |
 | 5 | Union Matrix §6.2–§6.4 for resolved reference profile when alias matches; do not drop surface-required items |
 | 6 | **Stricter union** with Stage Map §6/§7 applicable rows (R-003) |
 | 7 | Dedupe and merge (§7 below); surface conflicts in **Composer assumptions** |
@@ -119,7 +119,7 @@ Link all seeded tasks to bootstrap goal; set `선행 작업` so gate policy auth
 
 ## Validation
 
-Before composer run, validate stack manifests:
+Before composer run, validate Stack Adapter manifests:
 
 ```bash
 python3 references/presets/validate-manifests.py

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate ADF preset manifest JSON files against preset-manifest.schema.json."""
+"""Validate ADF Stack Adapter manifest JSON files."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PRESETS_DIR = ROOT / "presets"
-SCHEMA_PATH = ROOT / "schemas" / "preset-manifest.schema.json"
+SCHEMA_PATH = ROOT / "schemas" / "stack-adapter-manifest.schema.json"
 
 FOUNDATION_CATALOG_TYPES = {
     "Test Strategy",
@@ -114,7 +114,7 @@ def validate_manifest(manifest: dict, path: Path) -> list[str]:
 def main() -> int:
     manifest_paths = sorted(PRESETS_DIR.glob("stk.*.manifest.json"))
     if not manifest_paths:
-        print("No preset manifests found.", file=sys.stderr)
+        print("No Stack Adapter manifests found.", file=sys.stderr)
         return 1
 
     if not SCHEMA_PATH.exists():
@@ -140,7 +140,7 @@ def main() -> int:
             print(f"  - {error}")
         return 1
 
-    print(f"OK: validated {len(manifest_paths)} preset manifest(s)")
+    print(f"OK: validated {len(manifest_paths)} Stack Adapter manifest(s)")
     return 0
 
 

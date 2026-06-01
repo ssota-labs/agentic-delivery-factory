@@ -141,7 +141,7 @@ After the 0.4 workflow surface markers, ensure the instance also has:
 - Bundled repo references copied or linked:
   - `references/schemas/delivery-profile-matrix.md`
   - `references/schemas/policy-composer.md`
-  - `references/presets/*.manifest.json` for selected stacks
+  - `references/presets/*.manifest.json` for selected Stack Adapters
 - Run policy composer per `references/schemas/policy-composer.md` when upgrading to `gateMode=full`
 - Seeded or composed Knowledge Node `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` (Draft → human Active)
 - Seeded DOC tasks for gate policy + merged catalog types / policy roles (Matrix §8)
@@ -151,11 +151,11 @@ After the 0.4 workflow surface markers, ensure the instance also has:
 Upgrade path from 0.4:
 
 1. Bump `bootstrapVersion` to `0.5` and add `profileMatrixVersion` + `deliveryProfile`.
-2. Copy bundled matrix, composer procedure, and selected preset manifests from factory skill package.
+2. Copy bundled matrix, composer procedure, and selected Stack Adapter manifests from factory skill package.
 3. Re-run composer intake (surfaces/stacks) or adopt `prof.legacy-v04` via `gateMode=legacy` to preserve static gate behavior without composer merge.
 4. Do not require full re-bootstrap when adopting legacy mode; full mode requires composer pass + gate policy node.
 
-Validate preset manifests after copy:
+Validate Stack Adapter manifests after copy:
 
 ```bash
 python3 references/presets/validate-manifests.py

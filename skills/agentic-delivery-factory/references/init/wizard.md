@@ -97,7 +97,7 @@ Link starter tasks to `{TASK_PREFIX}-GOAL-001` through the `목표` relation.
 When `deliveryProfile.gateMode != legacy`:
 
 1. Read `references/schemas/delivery-profile-matrix.md` and `references/schemas/policy-composer.md`.
-2. Run `python3 references/presets/validate-manifests.py` on bundled preset manifests (from skill package root).
+2. Run `python3 references/presets/validate-manifests.py` on bundled Stack Adapter manifests (from skill package root).
 3. Execute composer steps 1–9; write **Draft** `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` node in instance Nodes DB.
 4. Seed DOC tasks per composer output (gate policy + one task per catalog type + one per `policyRole`). Do not mark gate policy Active without human confirm.
 5. Add starter edge: Bootstrap/Implementation Plan → defines → Implementation Gate Policy.
@@ -129,7 +129,7 @@ Copy bundled workflow references into `{target}/references/schemas/` when the in
 - `delivery-profile-matrix.md`
 - `policy-composer.md`
 
-Copy preset manifests to `{target}/references/presets/` when stacks were selected.
+Copy selected Stack Adapter manifests to `{target}/references/presets/` when stacks were selected.
 
 ## Phase 4 — Install automations
 

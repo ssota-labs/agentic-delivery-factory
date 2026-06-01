@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "adf.factory-bootstrap.preset-manifest.v1",
-  "title": "ADF Bootstrap Preset Manifest v1",
+  "$id": "adf.factory-bootstrap.stack-adapter-manifest.v1",
+  "title": "ADF Bootstrap Stack Adapter Manifest v1",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -32,7 +32,7 @@
 | `deliveryProfile.surfaces` | selected surface IDs |
 | `deliveryProfile.stacks` | selected stack preset IDs |
 | `deliveryProfile.gateMode` | `full` (dynamic composer) or `legacy` (v0.4 static gate) |
-| `deliveryProfile.profileId` | reference profile alias when intake matches Matrix §6.1 |
+| `deliveryProfile.profileId` | legacy reference profile alias when intake matches Matrix §6.1; new Factory Template work should prefer a generated Composition Contract |
 | `taskPolicyVersion` | task responsibility unit policy version (currently `1.0`) |
 | `catalogSourceUrl` | canonical ADF catalog source used for duplicate/adopt |
 | `catalogMigrationVersion` | latest catalog migration applied to the instance |

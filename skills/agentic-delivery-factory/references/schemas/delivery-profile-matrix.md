@@ -41,7 +41,7 @@ Surface owns **Test Strategy** and other foundation catalog types. Stack manifes
 | `stk.shadcn-ui` | UI kit | `surf.web-saas` only |
 | `stk.none` | Legacy bypass | any with `gateMode=legacy` |
 
-Manifest paths: `references/presets/{stackId}.manifest.json`.
+Stack Adapter manifest paths: `references/presets/{stackId}.manifest.json`.
 
 ### Stack contract — `stk.supabase`
 
@@ -134,5 +134,16 @@ Procedure: `references/schemas/policy-composer.md`.
 |---|---|
 | This matrix | `references/schemas/delivery-profile-matrix.md` |
 | Composer procedure | `references/schemas/policy-composer.md` |
-| Preset manifests | `references/presets/*.manifest.json` |
-| Manifest schema | `references/schemas/preset-manifest.schema.json` |
+| Stack Adapter manifests | `references/presets/*.manifest.json` |
+| Stack Adapter manifest schema | `references/schemas/stack-adapter-manifest.schema.json` |
+
+## Terminology migration note
+
+`profileId` and "Delivery Profile" remain in this matrix for v0.5 compatibility. New Factory Template work should use:
+
+- **Factory Template** for the user-selected package, e.g. `factory.web-saas.001`
+- **Stack Port** for abstract slots, e.g. `port.database`
+- **Stack Adapter** for selected implementations, e.g. `stk.supabase-db`
+- **Composition Contract** for the generated result formerly approximated by `profileId`
+
+Detailed contract: `references/schemas/factory-template-composition-contract.md`.
