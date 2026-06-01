@@ -76,9 +76,10 @@ If scheduler close-out gates fail, set `상태 = 보류` with a blocker note ins
 | User intent | Read skill |
 |---|---|
 | Task pickup/status/plan | `{{SKILLS_INSTALL_DIR}}/{{PROJECT_SLUG}}-task-workflow/SKILL.md` |
-| Node document create/update | `{{SKILLS_INSTALL_DIR}}/{{PROJECT_SLUG}}-node-authoring/SKILL.md` |
+| Node document create/update (catalog template-fill) | `{{SKILLS_INSTALL_DIR}}/{{PROJECT_SLUG}}-node-authoring/SKILL.md` |
+| Catalog-aligned doc authoring S1–S5 (`노드 문서 작성`, PRD/spec/policy) | `{{SKILLS_INSTALL_DIR}}/{{PROJECT_SLUG}}-documentation-workflow/SKILL.md` |
 | Edge creation/graph relation | `{{SKILLS_INSTALL_DIR}}/{{PROJECT_SLUG}}-edge-workflow/SKILL.md` |
-| Implementation/verification | `{{SKILLS_INSTALL_DIR}}/{{PROJECT_SLUG}}-implementation-workflow/SKILL.md` |
+| Implementation/verification (`구현` / `검증`) | `{{SKILLS_INSTALL_DIR}}/{{PROJECT_SLUG}}-implementation-workflow/SKILL.md` |
 | Reconciliation/drift audit | `{{SKILLS_INSTALL_DIR}}/{{PROJECT_SLUG}}-reconciliation/SKILL.md` |
 
 ## Node Rules
