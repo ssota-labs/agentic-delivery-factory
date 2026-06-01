@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "adf.factory-template.v1",
+  "title": "ADF Factory Template v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "templateVersion",
+    "factoryTemplateId",
+    "label",
+    "surface",
+    "requiredPorts",
+    "defaultAdapters",
+    "requiredNodeTypes",
+    "repoScaffold",
+    "gatePolicy"
+  ],
+  "properties": {
+    "templateVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "factoryTemplateId": {
+      "type": "string",
+      "pattern": "^factory\\.[a-z0-9-]+\\.[0-9]{3}$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "surface": {
+      "type": "string",
+      "pattern": "^surf\\.[a-z0-9-]+$"
+    },
+    "description": {
+      "type": "string"
+    },
+    "requiredPorts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^port\\.[a-z0-9-]+$"
+      },
+      "uniqueItems": true
+    },
+    "optionalPorts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^port\\.[a-z0-9-]+$"
+      },
+      "uniqueItems": true
+    },
+    "defaultAdapters": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^port\\.[a-z0-9-]+$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^stk\\.[a-z0-9-]+$"
+      }
+    },
+    "requiredNodeTypes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "projectPersistent",
+        "environmentPolicy",
+        "workSpecific"
+      ],
+      "properties": {
+        "projectPersistent": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "environmentPolicy": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "workSpecific": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "repoScaffold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["base", "includes", "paths"],
+      "properties": {
+        "base": {
+          "type": "string",
+          "minLength": 1
+        },
+        "includes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "paths": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "gatePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "blocksFirstProductImplementation"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["full", "legacy"]
+        },
+        "blocksFirstProductImplementation": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

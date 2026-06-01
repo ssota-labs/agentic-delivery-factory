@@ -1,0 +1,58 @@
+{
+  "manifestVersion": "1.0",
+  "stackId": "stk.playwright-e2e",
+  "label": "Playwright E2E",
+  "compatibleSurfaces": ["surf.web-saas"],
+  "policySeeds": [
+    {
+      "policyRole": "policy.playwright-e2e",
+      "title": "Playwright E2E coverage policy"
+    }
+  ],
+  "policyContributions": [
+    {
+      "targetPolicyRole": "policy.test-strategy",
+      "targetCatalogType": "Test Strategy",
+      "requiredSections": [
+        "browser E2E scope",
+        "critical path coverage",
+        "artifact capture policy"
+      ]
+    },
+    {
+      "targetPolicyRole": "policy.e2e-scenarios",
+      "targetCatalogType": "E2E Scenario List",
+      "requiredSections": [
+        "happy path assertions",
+        "empty/error state assertions",
+        "auth-aware flows"
+      ]
+    }
+  ],
+  "catalogCandidates": [],
+  "gateCandidates": {
+    "implementation": [
+      {
+        "checkId": "e2e-critical-path-change",
+        "gateClass": "E2E coverage change",
+        "summary": "PRD + E2E Scenario List current before critical path implementation",
+        "blocks": "critical user flow implementation",
+        "requiredPolicyRoles": ["policy.playwright-e2e"]
+      }
+    ],
+    "verification": [
+      {
+        "checkId": "playwright-e2e-run",
+        "gateClass": "Automated E2E",
+        "summary": "Test Run Report includes Playwright command output and artifacts for changed critical paths",
+        "blocks": "release verification close-out",
+        "requiredPolicyRoles": ["policy.playwright-e2e", "policy.e2e-scenarios"]
+      }
+    ]
+  },
+  "skillRefs": [],
+  "compatibilityHints": {
+    "requires": [],
+    "conflicts": []
+  }
+}

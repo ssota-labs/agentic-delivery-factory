@@ -16,6 +16,7 @@
 | `{{EDGES_DB_URL}}` / `{{EDGES_DS_ID}}` | Knowledge Edges database URL / data source ID |
 | `{{TASKS_DB_URL}}` / `{{TASKS_DS_ID}}` | Tasks database URL / data source ID |
 | `{{SKILLS_INSTALL_DIR}}` | `.cursor/skills` or `.agents/skills` |
+| `{{FACTORY_TEMPLATE_ID}}` | selected Factory Template ID, e.g. `factory.web-saas.001` |
 | `{{BOOTSTRAP_DATE}}` | ISO date |
 | `{{DELIVERY_SURFACES_JSON}}` | JSON array, e.g. `["surf.web-saas"]` |
 | `{{DELIVERY_STACKS_JSON}}` | JSON array, e.g. `["stk.vercel","stk.supabase"]` |
@@ -29,6 +30,8 @@
 | `bootstrapVersion` | shipped bootstrap contract version (currently `0.5`) |
 | `profileMatrixVersion` | bundled delivery profile matrix version (currently `1.3.3`) |
 | `workflowVersion` | stage map version (currently `1.3`) |
+| `factoryTemplate.factoryTemplateId` | selected user-facing Factory Template |
+| `factoryTemplate.sourcePath` | copied Factory Template JSON source path |
 | `deliveryProfile.surfaces` | selected surface IDs |
 | `deliveryProfile.stacks` | selected stack preset IDs |
 | `deliveryProfile.gateMode` | `full` (dynamic composer) or `legacy` (v0.4 static gate) |

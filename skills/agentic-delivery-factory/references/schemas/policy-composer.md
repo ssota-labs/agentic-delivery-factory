@@ -8,10 +8,11 @@
 
 | Input | Path |
 |---|---|
+| Factory Template | `references/templates/factories/{factoryTemplateId}.json` |
 | Profile Matrix | `references/schemas/delivery-profile-matrix.md` |
 | Stage Map | `references/schemas/delivery-workflow-stage-map.md` |
 | Stack Adapter manifests | `references/presets/{stackId}.manifest.json` |
-| Instance config | `.adf/config.json` — `surfaces`, `stacks`, `gateMode`, `profileId` |
+| Instance config | `.adf/config.json` — `factoryTemplate.factoryTemplateId`, `surfaces`, `stacks`, `gateMode`, legacy `profileId` |
 
 ## Output
 
@@ -28,20 +29,21 @@ Composer MUST NOT set gate policy **Active** without explicit human confirmation
 | Step | Action |
 |---|---|
 | 1 | Validate intake vs Matrix invalid combinations; abort or human override with memo |
-| 2 | If `gateMode=legacy` → write minimal policy referencing Stage Map §6/§7 only; skip steps 3–8 dynamic merge |
-| 3 | Load surface foundation + gate scope from Matrix for each selected surface; **stricter union** if multi-surface |
-| 4 | Load each selected Stack Adapter manifest; merge `policySeeds`, `policyContributions`, `catalogCandidates`, `gateCandidates` |
-| 5 | Union Matrix §6.2–§6.4 for resolved reference profile when alias matches; do not drop surface-required items |
-| 6 | **Stricter union** with Stage Map §6/§7 applicable rows (R-003) |
-| 7 | Dedupe and merge (§7 below); surface conflicts in **Composer assumptions** |
-| 8 | Write **Draft** gate policy node: required catalog types, required policies, implementation gate table, verification gate table, source trace |
-| 9 | Seed DOC tasks: gate policy authoring + all merged catalog types + policy roles |
+| 2 | If `gateMode=legacy` → write minimal policy referencing Stage Map §6/§7 only; skip steps 3–10 dynamic merge |
+| 3 | Load Factory Template required node types, required Stack Ports, default adapters, and repo scaffold contract |
+| 4 | Load surface foundation + gate scope from Matrix for each selected surface; **stricter union** if multi-surface |
+| 5 | Load each selected Stack Adapter manifest; merge `policySeeds`, `policyContributions`, `catalogCandidates`, `gateCandidates` |
+| 6 | Union Matrix §6.2–§6.4 for resolved legacy reference profile when alias matches; do not drop Factory Template or surface-required items |
+| 7 | **Stricter union** with Stage Map §6/§7 applicable rows (R-003) |
+| 8 | Dedupe and merge (§7 below); surface conflicts in **Composer assumptions** |
+| 9 | Write **Draft** gate policy node: Factory Template trace, required catalog types, required policies, implementation gate table, verification gate table, source trace |
+| 10 | Seed DOC tasks: gate policy authoring + all merged catalog types + policy roles |
 
 ## Dedupe and merge rules
 
 | Overlap | Rule |
 |---|---|
-| Same catalog type (surface + profile + stack) | **One** catalog row + **one** seeded DOC task |
+| Same catalog type (Factory Template + surface + legacy profile + Stack Adapter) | **One** catalog row + **one** seeded DOC task |
 | Stack `policySeeds` | Must use `policyRole` keys; must not duplicate foundation catalog types owned by surface |
 | Stack `policyContributions` | Add **required sections** to existing foundation policy/catalog DOC tasks — do **not** create duplicate catalog tasks |
 | `prof.web-full-stack` + `stk.supabase` + `stk.vercel` | Seed **one** `policy.combined-supabase-vercel-ops` (Matrix §6.3), not three ops tasks |
@@ -72,10 +74,11 @@ Example (`stk.supabase` on `surf.web-saas`):
 
 ```markdown
 ## Composer assumptions
+- Factory Template: [factory.*]
 - Surfaces: [surf.*]
-- Stacks: [stk.*]
+- Stack Adapters: [stk.*]
 - Gate mode: full | legacy
-- Resolved profile: [profileId or composed]
+- Legacy profile: [profileId or empty]
 - [conflict: ... if any]
 
 ## Required catalog types

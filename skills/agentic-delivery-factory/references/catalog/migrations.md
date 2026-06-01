@@ -138,7 +138,9 @@ After the 0.4 workflow surface markers, ensure the instance also has:
 
 - `bootstrapVersion = 0.5`, `profileMatrixVersion = 1.3.3`, and `deliveryProfile` object in `.adf/config.json`:
   - `surfaces[]`, `stacks[]`, `gateMode` (`full` | `legacy`), optional `profileId`
+- `factoryTemplate.factoryTemplateId` when a Factory Template was selected
 - Bundled repo references copied or linked:
+  - `references/templates/factories/*.json` for selected Factory Templates
   - `references/schemas/delivery-profile-matrix.md`
   - `references/schemas/policy-composer.md`
   - `references/presets/*.manifest.json` for selected Stack Adapters
@@ -151,7 +153,7 @@ After the 0.4 workflow surface markers, ensure the instance also has:
 Upgrade path from 0.4:
 
 1. Bump `bootstrapVersion` to `0.5` and add `profileMatrixVersion` + `deliveryProfile`.
-2. Copy bundled matrix, composer procedure, and selected Stack Adapter manifests from factory skill package.
+2. Copy selected Factory Template, bundled matrix, composer procedure, and selected Stack Adapter manifests from factory skill package.
 3. Re-run composer intake (surfaces/stacks) or adopt `prof.legacy-v04` via `gateMode=legacy` to preserve static gate behavior without composer merge.
 4. Do not require full re-bootstrap when adopting legacy mode; full mode requires composer pass + gate policy node.
 

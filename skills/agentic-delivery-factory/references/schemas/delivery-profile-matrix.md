@@ -38,7 +38,11 @@ Surface owns **Test Strategy** and other foundation catalog types. Stack manifes
 |---|---|---|
 | `stk.vercel` | Runtime / deploy | `surf.web-saas`, `surf.mcp-tool` |
 | `stk.supabase` | Data / auth | `surf.web-saas`, `surf.mobile-app`, `surf.api-backend` |
+| `stk.supabase-db` | Data / database | `surf.web-saas`, `surf.mobile-app`, `surf.api-backend` |
+| `stk.supabase-auth` | Auth / session | `surf.web-saas`, `surf.mobile-app`, `surf.api-backend` |
 | `stk.shadcn-ui` | UI kit | `surf.web-saas` only |
+| `stk.playwright-e2e` | E2E automation | `surf.web-saas` only |
+| `stk.storybook-openpencil` | Component feedback | `surf.web-saas` only |
 | `stk.none` | Legacy bypass | any with `gateMode=legacy` |
 
 Stack Adapter manifest paths: `references/presets/{stackId}.manifest.json`.
@@ -61,6 +65,7 @@ When `stk.vercel` is also selected, Matrix §6.3 adds `policy.combined-supabase-
 |---|---|---|
 | `surf.web-saas` | `stk.vercel`, `stk.shadcn-ui` | `prof.web-vercel-shadcn` |
 | `surf.web-saas` | `stk.vercel`, `stk.supabase`, `stk.shadcn-ui` | `prof.web-full-stack` |
+| `surf.web-saas` | `factory.web-saas.001` defaults (`stk.vercel`, `stk.supabase-db`, `stk.supabase-auth`, `stk.shadcn-ui`, `stk.playwright-e2e`, `stk.storybook-openpencil`) | `prof.web-full-stack` (legacy alias until Composition Contract migration) |
 | `surf.api-backend` | `stk.supabase` | `prof.api-supabase-lean` |
 | `surf.mobile-app` | `stk.supabase` (+ platform TBD) | `prof.mobile-full-stack` |
 | `surf.mcp-tool` | `stk.vercel` or none | `prof.mcp-lean` |
@@ -146,4 +151,4 @@ Procedure: `references/schemas/policy-composer.md`.
 - **Stack Adapter** for selected implementations, e.g. `stk.supabase-db`
 - **Composition Contract** for the generated result formerly approximated by `profileId`
 
-Detailed contract: `references/schemas/factory-template-composition-contract.md`.
+Factory Template source: `references/templates/factories/factory.web-saas.001.json`. The detailed design contract is maintained in the ADF Knowledge Node `adf.stack-node-composition.fullstack-service-baseline`.

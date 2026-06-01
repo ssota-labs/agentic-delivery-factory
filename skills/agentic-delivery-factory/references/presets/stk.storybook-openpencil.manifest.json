@@ -1,0 +1,57 @@
+{
+  "manifestVersion": "1.0",
+  "stackId": "stk.storybook-openpencil",
+  "label": "Storybook / OpenPencil component feedback",
+  "compatibleSurfaces": ["surf.web-saas"],
+  "policySeeds": [
+    {
+      "policyRole": "policy.component-feedback",
+      "title": "Storybook/OpenPencil component feedback policy"
+    }
+  ],
+  "policyContributions": [
+    {
+      "targetPolicyRole": "policy.component-policy",
+      "targetCatalogType": "Component Policy",
+      "requiredSections": [
+        "story coverage rules",
+        "OpenPencil feedback capture",
+        "component acceptance handoff"
+      ]
+    },
+    {
+      "targetPolicyRole": "policy.test-strategy",
+      "targetCatalogType": "Test Strategy",
+      "requiredSections": [
+        "visual review scope",
+        "component story smoke"
+      ]
+    }
+  ],
+  "catalogCandidates": ["Design QA Checklist"],
+  "gateCandidates": {
+    "implementation": [
+      {
+        "checkId": "component-story-change",
+        "gateClass": "Component feedback change",
+        "summary": "Component Policy current before shared UI/component changes",
+        "blocks": "shared component implementation",
+        "requiredPolicyRoles": ["policy.component-feedback"]
+      }
+    ],
+    "verification": [
+      {
+        "checkId": "component-feedback-review",
+        "gateClass": "UI/design QA",
+        "summary": "Design QA Checklist or Test Run Report includes Storybook/OpenPencil evidence for changed shared UI",
+        "blocks": "UI verification close-out",
+        "requiredPolicyRoles": ["policy.component-feedback"]
+      }
+    ]
+  },
+  "skillRefs": [],
+  "compatibilityHints": {
+    "requires": ["stk.shadcn-ui"],
+    "conflicts": []
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "manifestVersion": "1.0",
+  "stackId": "stk.supabase-auth",
+  "label": "Supabase Auth",
+  "compatibleSurfaces": ["surf.web-saas", "surf.mobile-app", "surf.api-backend"],
+  "policySeeds": [
+    {
+      "policyRole": "policy.supabase-auth",
+      "title": "Supabase auth/session/OAuth policy"
+    }
+  ],
+  "policyContributions": [
+    {
+      "targetPolicyRole": "policy.test-strategy",
+      "targetCatalogType": "Test Strategy",
+      "requiredSections": [
+        "auth role coverage",
+        "session boundary coverage"
+      ]
+    },
+    {
+      "targetPolicyRole": "policy.qa-env-test-data",
+      "targetCatalogType": "QA Environment & Test Data Policy",
+      "requiredSections": [
+        "seed users and roles",
+        "OAuth provider test accounts"
+      ]
+    },
+    {
+      "targetPolicyRole": "policy.e2e-scenarios",
+      "targetCatalogType": "E2E Scenario List",
+      "requiredSections": [
+        "auth/session flow"
+      ]
+    }
+  ],
+  "catalogCandidates": [],
+  "gateCandidates": {
+    "implementation": [
+      {
+        "checkId": "supabase-auth-boundary-change",
+        "gateClass": "Auth boundary change",
+        "summary": "Functional Spec or API Spec + Supabase auth/session/OAuth policy Active",
+        "blocks": "auth provider, OAuth, JWT/session, auth callback implementation",
+        "requiredPolicyRoles": ["policy.supabase-auth"]
+      }
+    ],
+    "verification": [
+      {
+        "checkId": "supabase-auth-e2e-session",
+        "gateClass": "Auth verification",
+        "summary": "E2E Scenario List + Test Run Report cover sign-in, session persistence, and sign-out",
+        "blocks": "auth verification close-out",
+        "requiredPolicyRoles": ["policy.supabase-auth", "policy.e2e-scenarios"]
+      }
+    ]
+  },
+  "skillRefs": [],
+  "compatibilityHints": {
+    "requires": [],
+    "conflicts": []
+  }
+}

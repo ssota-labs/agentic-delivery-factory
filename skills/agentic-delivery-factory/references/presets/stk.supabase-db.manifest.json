@@ -1,0 +1,75 @@
+{
+  "manifestVersion": "1.0",
+  "stackId": "stk.supabase-db",
+  "label": "Supabase Database",
+  "compatibleSurfaces": ["surf.web-saas", "surf.mobile-app", "surf.api-backend"],
+  "policySeeds": [
+    {
+      "policyRole": "policy.supabase-data",
+      "title": "Supabase database/RLS/migration policy"
+    }
+  ],
+  "policyContributions": [
+    {
+      "targetPolicyRole": "policy.test-strategy",
+      "targetCatalogType": "Test Strategy",
+      "requiredSections": [
+        "RLS access matrix",
+        "migration smoke scope"
+      ]
+    },
+    {
+      "targetPolicyRole": "policy.qa-env-test-data",
+      "targetCatalogType": "QA Environment & Test Data Policy",
+      "requiredSections": [
+        "Supabase project/env mapping",
+        "service role handling",
+        "reset and cleanup strategy"
+      ]
+    },
+    {
+      "targetPolicyRole": "policy.e2e-scenarios",
+      "targetCatalogType": "E2E Scenario List",
+      "requiredSections": [
+        "data persistence flow",
+        "RLS negative case"
+      ]
+    }
+  ],
+  "catalogCandidates": ["Data Model Spec"],
+  "gateCandidates": {
+    "implementation": [
+      {
+        "checkId": "supabase-db-schema-change",
+        "gateClass": "Data / schema change",
+        "summary": "Data Model Spec + Supabase database/RLS/migration policy Active",
+        "blocks": "schema/RLS/migration implementation",
+        "requiredPolicyRoles": ["policy.supabase-data"]
+      }
+    ],
+    "verification": [
+      {
+        "checkId": "supabase-db-rls-access-matrix",
+        "gateClass": "Data verification",
+        "summary": "Test Run Report includes positive/negative role access evidence",
+        "blocks": "data-layer verification close-out",
+        "requiredPolicyRoles": ["policy.supabase-data"],
+        "skillRef": "references/presets/guides/stk.supabase-rls-review.md"
+      },
+      {
+        "checkId": "supabase-db-migration-smoke",
+        "gateClass": "Migration verification",
+        "summary": "Migration log or Test Run Report shows apply/reset smoke in non-prod env",
+        "blocks": "schema migration verification close-out",
+        "requiredPolicyRoles": ["policy.supabase-data"]
+      }
+    ]
+  },
+  "skillRefs": [
+    "references/presets/guides/stk.supabase-rls-review.md"
+  ],
+  "compatibilityHints": {
+    "requires": [],
+    "conflicts": []
+  }
+}
