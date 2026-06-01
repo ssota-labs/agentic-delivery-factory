@@ -100,7 +100,7 @@ When `deliveryProfile.gateMode != legacy`:
 1. Read selected Factory Template JSON, `references/schemas/delivery-profile-matrix.md`, and `references/schemas/policy-composer.md`.
 2. Run `python3 references/presets/validate-manifests.py` on bundled Stack Adapter manifests (from skill package root).
 3. Resolve required Stack Ports to selected Stack Adapters, starting from the Factory Template defaults.
-4. Execute composer steps 1–9; write **Draft** `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` node in instance Nodes DB.
+4. Execute composer steps 1–10; write **Draft** `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` node in instance Nodes DB.
 5. Seed DOC tasks per composer output (gate policy + one task per catalog type + one per `policyRole`). Do not mark gate policy Active without human confirm.
 6. Add starter edge: Bootstrap/Implementation Plan → defines → Implementation Gate Policy.
 
