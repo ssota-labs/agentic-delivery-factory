@@ -4,6 +4,8 @@ Run before editing code or docs for a `구현` or `검증` task.
 
 When `.adf/config.json` has `workflowVersion >= 1.3`, also run the **design gate** section below.
 
+When `bootstrapVersion >= 0.5` and `deliveryProfile.gateMode != legacy`, also run the **dynamic gate** section below.
+
 ## Checklist
 
 1. **Intake decided** — confirm whether this work needs a node, task, and edges before proceeding.
@@ -35,6 +37,21 @@ Before `구현` or scheduler `검증` pickup:
 
 On verification tasks, require evidence appropriate to the verification class (Test Plan, Test Run Report, etc.) per stage map §7.
 
+## Dynamic gate (bootstrapVersion >= 0.5, gateMode = full)
+
+Before first product `구현` or when instance gate policy defines additional rows:
+
+1. Load instance SSOT node `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` (Draft/Active).
+2. If gate policy is missing and `gateMode=full` → block with composer/bootstrap recovery action.
+3. Instance **Implementation Gate Policy** MUST be `Active` before **first product** `구현` pickup (blocks `{TASK_PREFIX}-PLAT-003-IMPL` class scaffold tasks only when they are product implementation — bootstrap scaffold may proceed per bootstrap plan).
+4. Required nodes = **stricter union** of instance gate policy tables + Stage Map row for the task's surface/layer/trigger.
+5. In **scheduler mode**: if gate policy is `Draft` or any required gate node is not `Active` → set task `보류` with missing list; do not implement.
+6. Composer assumptions with `conflict:` prefix → block Active promotion until human resolves.
+
+Repo references when Notion node body is empty: `references/schemas/delivery-profile-matrix.md`, bundled gate policy trace on the node.
+
+Legacy path (`deliveryProfile.gateMode=legacy` or `bootstrapVersion < 0.5`): design gate + Stage Map static rows only.
+
 ## Blocker template
 
 ```markdown
@@ -47,6 +64,7 @@ Blocked by:
 - [missing or invalid edge dependency]
 - [Notion 선행 작업 relation or incomplete predecessor]
 - [design gate: required node Draft/missing — list types/keys]
+- [dynamic gate: Implementation Gate Policy Draft/missing or conflict unresolved]
 - [repo vs node contract mismatch]
 
 Next recommended action:

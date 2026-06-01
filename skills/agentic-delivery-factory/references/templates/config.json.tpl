@@ -1,7 +1,8 @@
 {
   "version": 1,
-  "bootstrapVersion": "0.4",
+  "bootstrapVersion": "0.5",
   "workflowVersion": "1.3",
+  "profileMatrixVersion": "1.3.3",
   "taskPolicyVersion": "1.0",
   "catalogSourceUrl": "https://www.notion.so/371346dac45681e89a65c51ec5825017",
   "catalogMigrationVersion": "0.2",
@@ -10,6 +11,12 @@
   "taskIdPrefix": "{{TASK_PREFIX}}",
   "githubRepo": "{{GITHUB_REPO}}",
   "skillsInstallDir": "{{SKILLS_INSTALL_DIR}}",
+  "deliveryProfile": {
+    "surfaces": {{DELIVERY_SURFACES_JSON}},
+    "stacks": {{DELIVERY_STACKS_JSON}},
+    "gateMode": "{{GATE_MODE}}",
+    "profileId": "{{PROFILE_ID}}"
+  },
   "automation": {
     "mode": "scheduler-and-sweep",
     "integrationBranch": "{{INTEGRATION_BRANCH}}",

@@ -1,0 +1,34 @@
+{
+  "manifestVersion": "1.0",
+  "stackId": "stk.shadcn-ui",
+  "label": "shadcn / Base UI",
+  "compatibleSurfaces": ["surf.web-saas"],
+  "policySeeds": [
+    {
+      "policyRole": "policy.shadcn-usage",
+      "title": "shadcn/component usage policy"
+    }
+  ],
+  "catalogCandidates": ["Design Token Spec"],
+  "gateCandidates": {
+    "implementation": [
+      {
+        "checkId": "design-system-change",
+        "gateClass": "Design-system change",
+        "summary": "PRD + Design Token / Component Policy delta",
+        "blocks": "shared UI impl"
+      }
+    ],
+    "verification": [
+      {
+        "checkId": "design-qa-ui",
+        "gateClass": "UI/design QA",
+        "summary": "Design QA Checklist on UI impl verification",
+        "blocks": "UI impl verification"
+      }
+    ]
+  },
+  "compatibilityHints": {
+    "conflicts": []
+  }
+}

@@ -18,8 +18,11 @@ Ask in one batch:
 | `releaseBranch` | human promotion branch, default `main` |
 | Notion mode | create new project/DBs or adopt existing |
 | Skills install dir | `.cursor/skills` default |
+| `surfaces[]` | 1..n from `references/schemas/delivery-profile-matrix.md` §3.1; default `surf.web-saas` |
+| `stacks[]` | 0..n stack IDs; filter by compatible surfaces; default per profile or empty |
+| `gateMode` | `full` (default) or `legacy` (`stk.none` only) |
 
-Summarize and get explicit approval before Notion writes or file overwrites.
+Summarize delivery profile (surfaces, stacks, resolved `profileId`, gate mode) and get explicit approval before Notion writes or file overwrites.
 
 ## Phase 1 — Create/adopt Notion
 
@@ -47,7 +50,8 @@ Catalog rules:
 - Source: https://www.notion.so/371346dac45681e89a65c51ec5825017
 - Prefer duplicate/adopt over CSV/MD reconstruction.
 - If source access is unavailable, stop and ask for shared access or explicit fallback approval.
-- After catalog setup, set `bootstrapVersion = 0.4`, `taskPolicyVersion = 1.0`, `catalogMigrationVersion = 0.2`, `integrationBranch`, and `releaseBranch` in `.adf/config.json`.
+- After catalog setup, set `bootstrapVersion = 0.5`, `profileMatrixVersion = 1.3.3`, `workflowVersion = 1.3`, `taskPolicyVersion = 1.0`, `catalogMigrationVersion = 0.2`, `integrationBranch`, and `releaseBranch` in `.adf/config.json`.
+- Record `deliveryProfile.surfaces`, `deliveryProfile.stacks`, `deliveryProfile.gateMode`, and resolved `deliveryProfile.profileId` from Phase 0 intake.
 
 ## Phase 2 — Seed
 
@@ -88,6 +92,18 @@ Create starter tasks:
 
 Link starter tasks to `{TASK_PREFIX}-GOAL-001` through the `목표` relation.
 
+## Phase 2.5 — Delivery profile composer
+
+When `deliveryProfile.gateMode != legacy`:
+
+1. Read `references/schemas/delivery-profile-matrix.md` and `references/schemas/policy-composer.md`.
+2. Run `python3 references/presets/validate-manifests.py` on bundled preset manifests (from skill package root).
+3. Execute composer steps 1–9; write **Draft** `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` node in instance Nodes DB.
+4. Seed DOC tasks per composer output (gate policy + one task per catalog type + one per `policyRole`). Do not mark gate policy Active without human confirm.
+5. Add starter edge: Bootstrap/Implementation Plan → defines → Implementation Gate Policy.
+
+When `gateMode=legacy`, skip dynamic composer; seed only Stage Map reference node and static gate behavior (v0.4 path).
+
 ## Phase 3 — Write target repo files
 
 Render:
@@ -105,7 +121,15 @@ Copy project workflow skills into `{target}/{SKILLS_INSTALL_DIR}/`:
 - implementation workflow
 - reconciliation
 
-Replace all placeholders.
+Replace all placeholders. Include delivery profile JSON arrays in config (`DELIVERY_SURFACES_JSON`, `DELIVERY_STACKS_JSON`, `GATE_MODE`, `PROFILE_ID`).
+
+Copy bundled workflow references into `{target}/references/schemas/` when the instance keeps repo mirrors:
+
+- `delivery-workflow-stage-map.md`
+- `delivery-profile-matrix.md`
+- `policy-composer.md`
+
+Copy preset manifests to `{target}/references/presets/` when stacks were selected.
 
 ## Phase 4 — Install automations
 
@@ -134,7 +158,8 @@ Return:
 - Runbook node and weekly run log node URLs
 - Dev Task Loop automation URL or exact setup still needed
 - Daily Reconciliation Sweep automation URL or exact setup still needed
-- First recommended task
+- First recommended task (when `gateMode=full`, gate policy authoring before first product `구현`)
+- Delivery profile summary: surfaces, stacks, `profileId`, Draft gate policy node URL
 
 ## Abort conditions
 

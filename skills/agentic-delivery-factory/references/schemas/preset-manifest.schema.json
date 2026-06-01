@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "adf.factory-bootstrap.preset-manifest.v1",
+  "title": "ADF Bootstrap Preset Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifestVersion",
+    "stackId",
+    "label",
+    "compatibleSurfaces",
+    "policySeeds",
+    "gateCandidates"
+  ],
+  "properties": {
+    "manifestVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "stackId": {
+      "type": "string",
+      "pattern": "^stk\\.[a-z0-9-]+$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compatibleSurfaces": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^surf\\.[a-z0-9-]+$"
+      },
+      "uniqueItems": true
+    },
+    "policySeeds": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/policySeed" }
+    },
+    "policyContributions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/policyContribution" }
+    },
+    "catalogCandidates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "gateCandidates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["implementation", "verification"],
+      "properties": {
+        "implementation": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/gateRow" }
+        },
+        "verification": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/gateRow" }
+        }
+      }
+    },
+    "skillRefs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "compatibilityHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requires": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^stk\\.[a-z0-9-]+$" }
+        },
+        "conflicts": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^stk\\.[a-z0-9-]+$" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "policySeed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policyRole", "title"],
+      "properties": {
+        "policyRole": {
+          "type": "string",
+          "pattern": "^policy\\.[a-z0-9-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "catalogTypeRef": {
+          "type": "string"
+        }
+      }
+    },
+    "policyContribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["targetPolicyRole", "targetCatalogType", "requiredSections"],
+      "properties": {
+        "targetPolicyRole": {
+          "type": "string",
+          "pattern": "^policy\\.[a-z0-9-]+$"
+        },
+        "targetCatalogType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requiredSections": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "gateRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkId", "gateClass", "summary"],
+      "properties": {
+        "checkId": { "type": "string", "minLength": 1 },
+        "gateClass": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "blocks": { "type": "string" },
+        "requiredPolicyRoles": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^policy\\.[a-z0-9-]+$" },
+          "uniqueItems": true
+        },
+        "skillRef": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

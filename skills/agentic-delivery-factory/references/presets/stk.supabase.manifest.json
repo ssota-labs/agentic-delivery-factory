@@ -1,0 +1,103 @@
+{
+  "manifestVersion": "1.0",
+  "stackId": "stk.supabase",
+  "label": "Supabase",
+  "compatibleSurfaces": ["surf.web-saas", "surf.mobile-app", "surf.api-backend"],
+  "policySeeds": [
+    {
+      "policyRole": "policy.supabase-data-auth",
+      "title": "Supabase data/auth/RLS/migration policy"
+    },
+    {
+      "policyRole": "policy.supabase-test-fixtures",
+      "title": "Supabase QA/test data and auth fixtures policy"
+    }
+  ],
+  "policyContributions": [
+    {
+      "targetPolicyRole": "policy.test-strategy",
+      "targetCatalogType": "Test Strategy",
+      "requiredSections": [
+        "RLS access matrix",
+        "auth role coverage",
+        "migration smoke scope"
+      ]
+    },
+    {
+      "targetPolicyRole": "policy.qa-env-test-data",
+      "targetCatalogType": "QA Environment & Test Data Policy",
+      "requiredSections": [
+        "Supabase project/env mapping",
+        "seed users and roles",
+        "service role handling",
+        "reset and cleanup strategy"
+      ]
+    },
+    {
+      "targetPolicyRole": "policy.e2e-scenarios",
+      "targetCatalogType": "E2E Scenario List",
+      "requiredSections": [
+        "auth/session flow",
+        "data persistence flow",
+        "RLS negative case"
+      ]
+    }
+  ],
+  "catalogCandidates": [],
+  "gateCandidates": {
+    "implementation": [
+      {
+        "checkId": "supabase-schema-change",
+        "gateClass": "Data / schema change",
+        "summary": "PRD + Tech Spec or API Spec + Supabase data/auth policy Active",
+        "blocks": "schema/RLS/migration impl",
+        "requiredPolicyRoles": ["policy.supabase-data-auth"]
+      },
+      {
+        "checkId": "supabase-env-binding-change",
+        "gateClass": "Env / test data change",
+        "summary": "QA Environment & Test Data Policy + Supabase test fixtures policy Active",
+        "blocks": "env vars, seed scripts, auth fixture wiring",
+        "requiredPolicyRoles": ["policy.qa-env-test-data", "policy.supabase-test-fixtures"]
+      },
+      {
+        "checkId": "supabase-auth-boundary-change",
+        "gateClass": "Auth boundary change",
+        "summary": "Functional Spec or API Spec + Supabase data/auth policy Active",
+        "blocks": "auth provider, JWT/session, RLS policy impl",
+        "requiredPolicyRoles": ["policy.supabase-data-auth"]
+      }
+    ],
+    "verification": [
+      {
+        "checkId": "supabase-rls-access-matrix",
+        "gateClass": "Data verification",
+        "summary": "Test Run Report includes positive/negative role access evidence",
+        "blocks": "data-layer verification close-out",
+        "requiredPolicyRoles": ["policy.supabase-data-auth"],
+        "skillRef": "references/presets/guides/stk.supabase-rls-review.md"
+      },
+      {
+        "checkId": "supabase-migration-smoke",
+        "gateClass": "Migration verification",
+        "summary": "Test Run Report or migration log shows apply/reset smoke in non-prod env",
+        "blocks": "schema migration verification close-out",
+        "requiredPolicyRoles": ["policy.supabase-data-auth"]
+      },
+      {
+        "checkId": "supabase-e2e-auth-data",
+        "gateClass": "Automated E2E",
+        "summary": "E2E Scenario List + Test Run Report cover auth/session and data persistence",
+        "blocks": "Supabase-backed E2E verification close-out",
+        "requiredPolicyRoles": ["policy.e2e-scenarios", "policy.supabase-test-fixtures"]
+      }
+    ]
+  },
+  "skillRefs": [
+    "references/presets/guides/stk.supabase-rls-review.md"
+  ],
+  "compatibilityHints": {
+    "requires": [],
+    "conflicts": []
+  }
+}

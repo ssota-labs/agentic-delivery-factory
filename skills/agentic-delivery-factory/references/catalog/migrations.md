@@ -18,11 +18,18 @@ Record these in the instance `.adf/config.json` after catalog setup:
 
 ```json
 {
-  "bootstrapVersion": "0.4",
+  "bootstrapVersion": "0.5",
   "workflowVersion": "1.3",
+  "profileMatrixVersion": "1.3.3",
   "taskPolicyVersion": "1.0",
   "catalogSourceUrl": "https://www.notion.so/371346dac45681e89a65c51ec5825017",
   "catalogMigrationVersion": "0.2",
+  "deliveryProfile": {
+    "surfaces": ["surf.web-saas"],
+    "stacks": [],
+    "gateMode": "full",
+    "profileId": ""
+  },
   "automation": {
     "integrationBranch": "dev",
     "releaseBranch": "main",
@@ -124,6 +131,35 @@ After the 0.4 operating policy markers, ensure the instance also has:
 - Dev Task Loop prompt routes `노드 문서 작성` to documentation-workflow and evaluates design gate before autonomous `구현`/`검증` pickup
 
 Upgrade path from 0.3: bump config markers (`bootstrapVersion`, `workflowVersion`), copy documentation-workflow + doc-coauthoring skills, patch `AGENTS.md` router, and adopt stage map / handoff nodes. Do not require full re-bootstrap.
+
+### Instance dynamic gate additions introduced in 0.5
+
+After the 0.4 workflow surface markers, ensure the instance also has:
+
+- `bootstrapVersion = 0.5`, `profileMatrixVersion = 1.3.3`, and `deliveryProfile` object in `.adf/config.json`:
+  - `surfaces[]`, `stacks[]`, `gateMode` (`full` | `legacy`), optional `profileId`
+- Bundled repo references copied or linked:
+  - `references/schemas/delivery-profile-matrix.md`
+  - `references/schemas/policy-composer.md`
+  - `references/presets/*.manifest.json` for selected stacks
+- Run policy composer per `references/schemas/policy-composer.md` when upgrading to `gateMode=full`
+- Seeded or composed Knowledge Node `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` (Draft → human Active)
+- Seeded DOC tasks for gate policy + merged catalog types / policy roles (Matrix §8)
+- `implementation-workflow/references/implementation-gate.md` includes **dynamic gate** checks when `bootstrapVersion >= 0.5` and `gateMode != legacy`
+- Dev Task Loop evaluates instance gate policy before autonomous first product `구현`/`검증` pickup
+
+Upgrade path from 0.4:
+
+1. Bump `bootstrapVersion` to `0.5` and add `profileMatrixVersion` + `deliveryProfile`.
+2. Copy bundled matrix, composer procedure, and selected preset manifests from factory skill package.
+3. Re-run composer intake (surfaces/stacks) or adopt `prof.legacy-v04` via `gateMode=legacy` to preserve static gate behavior without composer merge.
+4. Do not require full re-bootstrap when adopting legacy mode; full mode requires composer pass + gate policy node.
+
+Validate preset manifests after copy:
+
+```bash
+python3 references/presets/validate-manifests.py
+```
 
 ## Failure handling
 

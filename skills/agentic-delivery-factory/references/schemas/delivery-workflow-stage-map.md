@@ -56,7 +56,11 @@ On fail → task `보류` with missing node/type list. Route documentation tasks
 
 Policy SSOT: `{PROJECT_SLUG}.delivery-workflow.intent-handoff-gate`.
 
+When `bootstrapVersion >= 0.5` and `deliveryProfile.gateMode = full`, also load `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` and `references/schemas/delivery-profile-matrix.md` for composer/bootstrap scope.
+
 ## Repo paths (018 ship)
 
 - Bundled skills: `{SKILLS_INSTALL_DIR}/{PROJECT_SLUG}-documentation-workflow/`, `{PROJECT_SLUG}-doc-coauthoring/` (delegate only)
 - Gate reference: `{SKILLS_INSTALL_DIR}/{PROJECT_SLUG}-implementation-workflow/references/implementation-gate.md`
+- Profile matrix: `references/schemas/delivery-profile-matrix.md`
+- Policy composer: `references/schemas/policy-composer.md`

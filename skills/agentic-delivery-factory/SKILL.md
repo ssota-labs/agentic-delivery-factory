@@ -51,6 +51,7 @@ Read the matching reference before writing files or Notion data:
 | Intent | Read |
 |---|---|
 | New instance bootstrap | `references/init/wizard.md` |
+| Delivery profile / policy composer | `references/schemas/delivery-profile-matrix.md`, `references/schemas/policy-composer.md` |
 | Adopt an existing repo/project | `references/init/adopt-existing.md` |
 | Verify an existing instance schema | `references/init/verify-schema.md` |
 | Catalog duplicate/adopt + migration | `references/catalog/migrations.md` |

@@ -1,0 +1,36 @@
+{
+  "manifestVersion": "1.0",
+  "stackId": "stk.vercel",
+  "label": "Vercel / Next.js runtime",
+  "compatibleSurfaces": ["surf.web-saas", "surf.mcp-tool"],
+  "policySeeds": [
+    {
+      "policyRole": "policy.vercel-deploy",
+      "title": "Vercel deploy/preview/env policy"
+    }
+  ],
+  "gateCandidates": {
+    "implementation": [
+      {
+        "checkId": "deploy-runtime-change",
+        "gateClass": "Deploy / runtime change",
+        "summary": "PRD + deploy/runtime policy current",
+        "blocks": "hosting/config impl"
+      }
+    ],
+    "verification": [
+      {
+        "checkId": "deploy-smoke",
+        "gateClass": "Deploy verification",
+        "summary": "Deploy smoke or preview verification evidence",
+        "blocks": "hosted release verification"
+      }
+    ]
+  },
+  "skillRefs": [
+    "references/presets/stk.vercel.manifest.json"
+  ],
+  "compatibilityHints": {
+    "requires": []
+  }
+}
