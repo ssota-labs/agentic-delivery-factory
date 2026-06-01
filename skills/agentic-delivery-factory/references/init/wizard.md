@@ -100,6 +100,8 @@ Copy project workflow skills into `{target}/{SKILLS_INSTALL_DIR}/`:
 - task workflow
 - node authoring
 - edge workflow
+- documentation workflow (includes co-authoring branch delegate — install `doc-coauthoring/` too; do **not** add it as a separate AGENTS router row)
+- doc coauthoring (bundled delegate for documentation-workflow only)
 - implementation workflow
 - reconciliation
 
