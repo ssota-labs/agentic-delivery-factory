@@ -1,6 +1,6 @@
 {
   "manifestVersion": "1.0",
-  "stackId": "stk.vercel",
+  "adapterId": "apt.vercel",
   "label": "Vercel / Next.js runtime",
   "compatibleSurfaces": ["surf.web-saas", "surf.mcp-tool"],
   "policySeeds": [
@@ -28,7 +28,7 @@
     ]
   },
   "skillRefs": [
-    "references/presets/stk.vercel.manifest.json"
+    "references/presets/apt.vercel.manifest.json"
   ],
   "compatibilityHints": {
     "requires": []

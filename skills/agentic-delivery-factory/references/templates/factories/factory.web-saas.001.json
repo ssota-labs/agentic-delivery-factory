@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/factory-template.schema.json",
+  "templateVersion": "1.0",
+  "factoryTemplateId": "factory.web-saas.001",
+  "label": "Full Stack Web 001",
+  "surface": "surf.web-saas",
+  "description": "Port-based full-stack Web SaaS factory template. Installs the ADF operating layer, then composes a Next.js-oriented repo scaffold, required node-document set, Stack Adapters, adapter skills, policy contributions, and implementation gates.",
+  "requiredPorts": [
+    "port.hosting",
+    "port.database",
+    "port.auth",
+    "port.ui-kit",
+    "port.e2e",
+    "port.component-catalog"
+  ],
+  "optionalPorts": [
+    "port.object-storage",
+    "port.email",
+    "port.analytics",
+    "port.payments",
+    "port.workflow"
+  ],
+  "defaultAdapters": {
+    "port.hosting": "apt.vercel",
+    "port.database": "apt.supabase-db",
+    "port.auth": "apt.supabase-auth",
+    "port.ui-kit": "apt.shadcn-ui",
+    "port.e2e": "apt.playwright-e2e",
+    "port.component-catalog": "apt.storybook-openpencil"
+  },
+  "requiredNodeTypes": {
+    "projectPersistent": [
+      "Project Brief",
+      "Architecture Overview",
+      "Information Architecture"
+    ],
+    "environmentPolicy": [
+      "Design Token Spec",
+      "Component Policy",
+      "Accessibility Baseline",
+      "Test Strategy",
+      "QA Environment & Test Data Policy",
+      "E2E Scenario List"
+    ],
+    "workSpecific": [
+      "PRD",
+      "Screen Flow",
+      "Screen Spec",
+      "Functional Spec",
+      "API Spec",
+      "Tech Spec",
+      "Data Model Spec",
+      "Test Plan",
+      "Test Run Report",
+      "Design QA Checklist"
+    ]
+  },
+  "repoScaffold": {
+    "base": "nextjs-app-router",
+    "includes": [
+      "storybook",
+      "openpencil",
+      "cursor-skills",
+      "env-template",
+      "test-harness"
+    ],
+    "paths": [
+      "apps/web",
+      "packages/domain",
+      "packages/ui",
+      "packages/test",
+      "docs",
+      ".cursor/skills"
+    ]
+  },
+  "gatePolicy": {
+    "mode": "full",
+    "blocksFirstProductImplementation": true
+  }
+}

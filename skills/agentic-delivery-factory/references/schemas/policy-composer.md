@@ -4,14 +4,35 @@
 
 **Runtime SSOT for instance bootstrap**: follow this bundled procedure. Read inputs from repo refs only — not factory Notion.
 
+## Execution model
+
+**Composer = bootstrap agent.** There is no separate CLI or batch tool. The agent reads Factory Template + Stack Adapter manifests, applies the deterministic steps below, and writes Notion nodes/tasks plus optional repo traces.
+
+| Artifact | Who writes it |
+|---|---|
+| Implementation Gate Policy (Draft) | Agent during Phase 2.5 |
+| Seeded DOC tasks | Agent during Phase 2.5 |
+| `.adf/composition.json` | Agent during Phase 2.5/3 — machine-readable Composition Contract trace; same facts as gate policy **Composer assumptions** |
+| Merged policy prose | Later via documentation-workflow / doc-coauthoring on seeded DOC tasks |
+
+Only automated checks in-repo:
+
+```bash
+python3 references/presets/validate-manifests.py
+python3 references/schemas/validate-composition.py [.adf/composition.json]
+```
+
+Schema: `references/schemas/composition-contract.schema.json`. Template: `references/templates/composition.json.tpl`. Example: `references/schemas/composition.factory.web-saas.001.example.json`.
+
 ## Inputs (read bundled paths)
 
 | Input | Path |
 |---|---|
+| Factory Template | `references/templates/factories/{factoryTemplateId}.json` |
 | Profile Matrix | `references/schemas/delivery-profile-matrix.md` |
 | Stage Map | `references/schemas/delivery-workflow-stage-map.md` |
-| Preset manifests | `references/presets/{stackId}.manifest.json` |
-| Instance config | `.adf/config.json` — `surfaces`, `stacks`, `gateMode`, `profileId` |
+| Stack Adapter manifests | `references/presets/{adapterId}.manifest.json` |
+| Instance config | `.adf/config.json` — `factoryTemplate.factoryTemplateId`, `surfaces`, `stacks`, `gateMode`, legacy `profileId` |
 
 ## Output
 
@@ -28,54 +49,57 @@ Composer MUST NOT set gate policy **Active** without explicit human confirmation
 | Step | Action |
 |---|---|
 | 1 | Validate intake vs Matrix invalid combinations; abort or human override with memo |
-| 2 | If `gateMode=legacy` → write minimal policy referencing Stage Map §6/§7 only; skip steps 3–8 dynamic merge |
-| 3 | Load surface foundation + gate scope from Matrix for each selected surface; **stricter union** if multi-surface |
-| 4 | Load each selected stack manifest; merge `policySeeds`, `policyContributions`, `catalogCandidates`, `gateCandidates` |
-| 5 | Union Matrix §6.2–§6.4 for resolved reference profile when alias matches; do not drop surface-required items |
-| 6 | **Stricter union** with Stage Map §6/§7 applicable rows (R-003) |
-| 7 | Dedupe and merge (§7 below); surface conflicts in **Composer assumptions** |
-| 8 | Write **Draft** gate policy node: required catalog types, required policies, implementation gate table, verification gate table, source trace |
-| 9 | Seed DOC tasks: gate policy authoring + all merged catalog types + policy roles |
+| 2 | If `gateMode=legacy` → write minimal policy referencing Stage Map §6/§7 only; skip steps 3–10 dynamic merge |
+| 3 | Load Factory Template required node types, required Stack Ports, default adapters, and repo scaffold contract |
+| 4 | Load surface foundation + gate scope from Matrix for each selected surface; **stricter union** if multi-surface |
+| 5 | Load each selected Stack Adapter manifest; merge `policySeeds`, `policyContributions`, `catalogCandidates`, `gateCandidates` |
+| 6 | Union Matrix §6.2–§6.4 for resolved legacy reference profile when alias matches; do not drop Factory Template or surface-required items |
+| 7 | **Stricter union** with Stage Map §6/§7 applicable rows (R-003) |
+| 8 | Dedupe and merge (§7 below); surface conflicts in **Composer assumptions** |
+| 9 | Write **Draft** gate policy node: Factory Template trace, required catalog types, required policies, implementation gate table, verification gate table, source trace. Render `references/templates/composition.json.tpl` → `{target}/.adf/composition.json` with the same merged contract (validate with `references/schemas/validate-composition.py`) |
+| 10 | Seed DOC tasks: gate policy authoring + all merged catalog types + policy roles |
 
 ## Dedupe and merge rules
 
 | Overlap | Rule |
 |---|---|
-| Same catalog type (surface + profile + stack) | **One** catalog row + **one** seeded DOC task |
-| Stack `policySeeds` | Must use `policyRole` keys; must not duplicate foundation catalog types owned by surface |
-| Stack `policyContributions` | Add **required sections** to existing foundation policy/catalog DOC tasks — do **not** create duplicate catalog tasks |
-| `prof.web-full-stack` + `stk.supabase` + `stk.vercel` | Seed **one** `policy.combined-supabase-vercel-ops` (Matrix §6.3), not three ops tasks |
-| Same `policyRole` from two stacks | One policy node; source trace lists both stacks |
-| Stack verification-only concern | Add to verification gate table via `gateCandidates`; no extra foundation catalog task |
+| Same catalog type (Factory Template + surface + legacy profile + Stack Adapter) | **One** catalog row + **one** seeded DOC task |
+| Stack Adapter `policySeeds` | Must use `policyRole` keys; must not duplicate foundation catalog types owned by surface |
+| Stack Adapter `policyContributions` | Add **required sections plus section guidance** to existing foundation policy/catalog DOC tasks — do **not** create duplicate catalog tasks |
+| `prof.web-full-stack` + `apt.supabase` + `apt.vercel` | Seed **one** `policy.combined-supabase-vercel-ops` (Matrix §6.3), not three ops tasks |
+| Same `policyRole` from two adapters | One policy node; source trace lists both adapters |
+| Stack Adapter verification-only concern | Add to verification gate table via `gateCandidates`; no extra foundation catalog task |
 | Contradictory manifest hints or gate rows | Record `conflict:` in assumptions; block Active until human resolves |
 
-**Not composer scope**: merged policy prose. Seeded DOC tasks + documentation-workflow / doc-coauthoring write content. Stack `skillRef` on gate rows points to verification runbooks — execution guides, not gate SSOT.
+**Not composer scope**: merged policy prose. Seeded DOC tasks + documentation-workflow / doc-coauthoring write content. Stack Adapter `skillRef` on gate rows points to verification runbooks — execution guides, not gate SSOT.
 
 ### Policy contributions merge
 
-When a stack manifest defines `policyContributions[]`:
+When a Stack Adapter manifest defines `policyContributions[]`:
 
 1. Resolve `targetCatalogType` against merged required catalog types from surface/profile.
-2. If the catalog type already has a seeded DOC task, append a **Stack contributions** subsection to that task body listing `requiredSections` + source stack.
+2. If the catalog type already has a seeded DOC task, append a **Stack Adapter contributions** subsection to that task body listing `requiredSections`, `sectionGuidance`, and source adapter.
 3. If the target catalog type is absent for the selected surface, record `conflict: policyContribution targets missing catalog type` in assumptions.
-4. Union `requiredSections` by `(targetPolicyRole, stackId)` — same target from one stack merges sections; duplicate section titles dedupe.
+4. Union `requiredSections` by `(targetPolicyRole, adapterId)` — same target from one adapter merges sections; duplicate section titles dedupe.
+5. Treat `sectionGuidance` as the authoring contract for each added section. `requiredSections` alone is only a merge key and is not enough for high-quality document generation.
 
-Example (`stk.supabase` on `surf.web-saas`):
+Example (`apt.supabase` on `surf.web-saas`):
 
-| targetPolicyRole | targetCatalogType | Sections added |
-|---|---|---|
-| `policy.test-strategy` | Test Strategy | RLS access matrix; auth role coverage; migration smoke scope |
-| `policy.qa-env-test-data` | QA Environment & Test Data Policy | Supabase project/env mapping; seed users; service role handling; reset strategy |
-| `policy.e2e-scenarios` | E2E Scenario List | auth/session flow; data persistence flow; RLS negative case |
+| targetPolicyRole | targetCatalogType | Sections added | Guidance use |
+|---|---|---|---|
+| `policy.test-strategy` | Test Strategy | RLS access matrix; auth role coverage; migration smoke scope | Explain role matrix rows, migration command/log evidence, and required auth variants |
+| `policy.qa-env-test-data` | QA Environment & Test Data Policy | Supabase project/env mapping; seed users; service role handling; reset strategy | Explain env bindings, seed accounts, secret boundaries, and reset safeguards |
+| `policy.e2e-scenarios` | E2E Scenario List | auth/session flow; data persistence flow; RLS negative case | Explain happy path, persisted state assertion, and denied-access negative case |
 
 ## Gate policy node template (Draft body)
 
 ```markdown
 ## Composer assumptions
+- Factory Template: [factory.*]
 - Surfaces: [surf.*]
-- Stacks: [stk.*]
+- Stack Adapters: [apt.*]
 - Gate mode: full | legacy
-- Resolved profile: [profileId or composed]
+- Legacy profile: [profileId or empty]
 - [conflict: ... if any]
 
 ## Required catalog types
@@ -88,10 +112,10 @@ Example (`stk.supabase` on `surf.web-saas`):
 |---|---|---|
 | ... | ... | stack manifest / matrix §6.3 |
 
-## Policy contributions (stack sections on foundation docs)
-| targetCatalogType | targetPolicyRole | Required sections | Source stack |
-|---|---|---|---|
-| ... | ... | ... | stk.* |
+## Policy contributions (adapter sections on foundation docs)
+| targetCatalogType | targetPolicyRole | Required sections | Section guidance | Source adapter |
+|---|---|---|---|---|
+| ... | ... | ... | ... | apt.* |
 
 ## Implementation gate
 | checkId | gateClass | Required nodes | Blocks |
@@ -119,7 +143,7 @@ Link all seeded tasks to bootstrap goal; set `선행 작업` so gate policy auth
 
 ## Validation
 
-Before composer run, validate stack manifests:
+Before composer run, validate Stack Adapter manifests:
 
 ```bash
 python3 references/presets/validate-manifests.py

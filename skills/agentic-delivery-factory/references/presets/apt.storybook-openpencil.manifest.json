@@ -1,0 +1,76 @@
+{
+  "manifestVersion": "1.0",
+  "adapterId": "apt.storybook-openpencil",
+  "label": "Storybook / OpenPencil component feedback",
+  "compatibleSurfaces": [
+    "surf.web-saas"
+  ],
+  "policySeeds": [
+    {
+      "policyRole": "policy.component-feedback",
+      "title": "Storybook/OpenPencil component feedback policy"
+    }
+  ],
+  "policyContributions": [
+    {
+      "targetPolicyRole": "policy.component-policy",
+      "targetCatalogType": "Component Policy",
+      "requiredSections": [
+        "story coverage rules",
+        "OpenPencil feedback capture",
+        "component acceptance handoff"
+      ],
+      "sectionGuidance": {
+        "story coverage rules": "Define which shared components require stories, required story states, and minimum controls/args for design review.",
+        "OpenPencil feedback capture": "Explain how OpenPencil comments or design feedback are captured, linked to tasks, and resolved before UI close-out.",
+        "component acceptance handoff": "State what evidence proves a component is accepted, including story URL, visual state, accessibility notes, and linked task/node references."
+      }
+    },
+    {
+      "targetPolicyRole": "policy.test-strategy",
+      "targetCatalogType": "Test Strategy",
+      "requiredSections": [
+        "visual review scope",
+        "component story smoke"
+      ],
+      "sectionGuidance": {
+        "visual review scope": "Define which UI changes require visual review, screenshot/video evidence, and whether review happens in Storybook, app preview, or both.",
+        "component story smoke": "Describe the minimal Storybook smoke check required after shared component or design-token changes."
+      }
+    }
+  ],
+  "catalogCandidates": [
+    "Design QA Checklist"
+  ],
+  "gateCandidates": {
+    "implementation": [
+      {
+        "checkId": "component-story-change",
+        "gateClass": "Component feedback change",
+        "summary": "Component Policy current before shared UI/component changes",
+        "blocks": "shared component implementation",
+        "requiredPolicyRoles": [
+          "policy.component-feedback"
+        ]
+      }
+    ],
+    "verification": [
+      {
+        "checkId": "component-feedback-review",
+        "gateClass": "UI/design QA",
+        "summary": "Design QA Checklist or Test Run Report includes Storybook/OpenPencil evidence for changed shared UI",
+        "blocks": "UI verification close-out",
+        "requiredPolicyRoles": [
+          "policy.component-feedback"
+        ]
+      }
+    ]
+  },
+  "skillRefs": [],
+  "compatibilityHints": {
+    "requires": [
+      "apt.shadcn-ui"
+    ],
+    "conflicts": []
+  }
+}

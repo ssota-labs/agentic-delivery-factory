@@ -1,0 +1,132 @@
+{
+  "$schema": "./composition-contract.schema.json",
+  "compositionVersion": "1.0",
+  "compositionId": "comp.example-web-saas.001",
+  "composedAt": "2026-06-02T00:00:00Z",
+  "factoryTemplateId": "factory.web-saas.001",
+  "surface": "surf.web-saas",
+  "gateMode": "full",
+  "legacyProfileId": "prof.web-full-stack",
+  "selectedAdapters": {
+    "port.hosting": "apt.vercel",
+    "port.database": "apt.supabase-db",
+    "port.auth": "apt.supabase-auth",
+    "port.ui-kit": "apt.shadcn-ui",
+    "port.e2e": "apt.playwright-e2e",
+    "port.component-catalog": "apt.storybook-openpencil"
+  },
+  "requiredNodeTypes": {
+    "projectPersistent": [
+      "Project Brief",
+      "Architecture Overview",
+      "Information Architecture"
+    ],
+    "environmentPolicy": [
+      "Design Token Spec",
+      "Component Policy",
+      "Accessibility Baseline",
+      "Test Strategy",
+      "QA Environment & Test Data Policy",
+      "E2E Scenario List"
+    ],
+    "workSpecific": [
+      "PRD",
+      "Screen Flow",
+      "Screen Spec",
+      "Functional Spec",
+      "API Spec",
+      "Tech Spec",
+      "Data Model Spec",
+      "Test Plan",
+      "Test Run Report",
+      "Design QA Checklist"
+    ]
+  },
+  "policySeeds": [
+    {
+      "policyRole": "policy.supabase-data",
+      "title": "Supabase database/RLS/migration policy",
+      "sourceAdapters": ["apt.supabase-db"]
+    },
+    {
+      "policyRole": "policy.combined-supabase-vercel-ops",
+      "title": "Combined Supabase + Vercel operations policy",
+      "sourceAdapters": ["apt.supabase-db", "apt.vercel"]
+    }
+  ],
+  "policyContributions": [
+    {
+      "targetPolicyRole": "policy.test-strategy",
+      "targetCatalogType": "Test Strategy",
+      "requiredSections": [
+        "RLS access matrix",
+        "migration smoke scope"
+      ],
+      "sectionGuidance": {
+        "RLS access matrix": "Add a table of roles, allowed operations, denied operations, and the specific RLS policy or test evidence that proves each boundary.",
+        "migration smoke scope": "Describe which schema migrations must be applied/reset in a non-prod environment and what command/log proves the migration path is healthy."
+      },
+      "sourceAdapters": ["apt.supabase-db"]
+    }
+  ],
+  "adapterSkillInstallPlan": [
+    {
+      "adapterId": "apt.supabase-db",
+      "skillRefs": ["references/presets/guides/apt.supabase-rls-review.md"]
+    }
+  ],
+  "repoScaffoldPlan": {
+    "base": "nextjs-app-router",
+    "includes": [
+      "storybook",
+      "openpencil",
+      "cursor-skills",
+      "env-template",
+      "test-harness"
+    ],
+    "paths": [
+      "apps/web",
+      "packages/domain",
+      "packages/ui",
+      "packages/test",
+      "docs",
+      ".cursor/skills"
+    ],
+    "adapterFragments": []
+  },
+  "implementationGateRows": [
+    {
+      "checkId": "gate.impl.project-brief",
+      "gateClass": "foundation-doc",
+      "summary": "Project Brief must be Active before first product implementation.",
+      "blocks": "first product implementation",
+      "requiredCatalogTypes": ["Project Brief"],
+      "sourceTrace": ["factory.web-saas.001", "delivery-profile-matrix §6.2"]
+    }
+  ],
+  "verificationGateRows": [
+    {
+      "checkId": "gate.ver.rls-review",
+      "gateClass": "adapter-verification",
+      "summary": "Supabase RLS review runbook evidence required before release verification.",
+      "requiredPolicyRoles": ["policy.supabase-data"],
+      "skillRef": "references/presets/guides/apt.supabase-rls-review.md",
+      "sourceTrace": ["apt.supabase-db"]
+    }
+  ],
+  "conflicts": [],
+  "sourceTrace": {
+    "factoryTemplatePath": "references/templates/factories/factory.web-saas.001.json",
+    "adapterManifestPaths": [
+      "references/presets/apt.vercel.manifest.json",
+      "references/presets/apt.supabase-db.manifest.json",
+      "references/presets/apt.supabase-auth.manifest.json",
+      "references/presets/apt.shadcn-ui.manifest.json",
+      "references/presets/apt.playwright-e2e.manifest.json",
+      "references/presets/apt.storybook-openpencil.manifest.json"
+    ],
+    "profileMatrixVersion": "1.3.3",
+    "gatePolicyNodeKey": "example-web-saas.delivery-workflow.implementation-gate-policy",
+    "composerProcedurePath": "references/schemas/policy-composer.md"
+  }
+}

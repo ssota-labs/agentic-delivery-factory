@@ -11,6 +11,15 @@
   "taskIdPrefix": "{{TASK_PREFIX}}",
   "githubRepo": "{{GITHUB_REPO}}",
   "skillsInstallDir": "{{SKILLS_INSTALL_DIR}}",
+  "factoryTemplate": {
+    "factoryTemplateId": "{{FACTORY_TEMPLATE_ID}}",
+    "sourcePath": "references/templates/factories/{{FACTORY_TEMPLATE_ID}}.json"
+  },
+  "composition": {
+    "compositionId": "{{COMPOSITION_ID}}",
+    "sourcePath": ".adf/composition.json",
+    "schemaPath": "references/schemas/composition-contract.schema.json"
+  },
   "deliveryProfile": {
     "surfaces": {{DELIVERY_SURFACES_JSON}},
     "stacks": {{DELIVERY_STACKS_JSON}},

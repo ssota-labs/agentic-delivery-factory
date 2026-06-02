@@ -18,11 +18,12 @@ Ask in one batch:
 | `releaseBranch` | human promotion branch, default `main` |
 | Notion mode | create new project/DBs or adopt existing |
 | Skills install dir | `.cursor/skills` default |
+| `factoryTemplateId` | Factory Template ID from `references/templates/factories/*.json`; default `factory.web-saas.001` |
 | `surfaces[]` | 1..n from `references/schemas/delivery-profile-matrix.md` §3.1; default `surf.web-saas` |
 | `stacks[]` | 0..n stack IDs; filter by compatible surfaces; default per profile or empty |
-| `gateMode` | `full` (default) or `legacy` (`stk.none` only) |
+| `gateMode` | `full` (default) or `legacy` (`apt.none` only) |
 
-Summarize delivery profile (surfaces, stacks, resolved `profileId`, gate mode) and get explicit approval before Notion writes or file overwrites.
+Summarize Factory Template, surfaces, Stack Adapter defaults/overrides, legacy `profileId` if still used, and gate mode. Get explicit approval before Notion writes or file overwrites.
 
 ## Phase 1 — Create/adopt Notion
 
@@ -51,7 +52,7 @@ Catalog rules:
 - Prefer duplicate/adopt over CSV/MD reconstruction.
 - If source access is unavailable, stop and ask for shared access or explicit fallback approval.
 - After catalog setup, set `bootstrapVersion = 0.5`, `profileMatrixVersion = 1.3.3`, `workflowVersion = 1.3`, `taskPolicyVersion = 1.0`, `catalogMigrationVersion = 0.2`, `integrationBranch`, and `releaseBranch` in `.adf/config.json`.
-- Record `deliveryProfile.surfaces`, `deliveryProfile.stacks`, `deliveryProfile.gateMode`, and resolved `deliveryProfile.profileId` from Phase 0 intake.
+- Record selected `factoryTemplateId`, `deliveryProfile.surfaces`, `deliveryProfile.stacks`, `deliveryProfile.gateMode`, and resolved legacy `deliveryProfile.profileId` from Phase 0 intake.
 
 ## Phase 2 — Seed
 
@@ -94,13 +95,17 @@ Link starter tasks to `{TASK_PREFIX}-GOAL-001` through the `목표` relation.
 
 ## Phase 2.5 — Delivery profile composer
 
+The **composer is the bootstrap agent** (no CLI). Follow `references/schemas/policy-composer.md` steps 1–10 in this phase.
+
 When `deliveryProfile.gateMode != legacy`:
 
-1. Read `references/schemas/delivery-profile-matrix.md` and `references/schemas/policy-composer.md`.
-2. Run `python3 references/presets/validate-manifests.py` on bundled preset manifests (from skill package root).
-3. Execute composer steps 1–9; write **Draft** `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` node in instance Nodes DB.
-4. Seed DOC tasks per composer output (gate policy + one task per catalog type + one per `policyRole`). Do not mark gate policy Active without human confirm.
-5. Add starter edge: Bootstrap/Implementation Plan → defines → Implementation Gate Policy.
+1. Read selected Factory Template JSON, `references/schemas/delivery-profile-matrix.md`, and `references/schemas/policy-composer.md`.
+2. Run `python3 references/presets/validate-manifests.py` on bundled Stack Adapter manifests (from skill package root).
+3. Resolve required Stack Ports to selected Stack Adapters, starting from the Factory Template defaults.
+4. Execute composer steps 1–10; write **Draft** `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` node in instance Nodes DB.
+5. Render `references/templates/composition.json.tpl` → `{target}/.adf/composition.json` using the same merged contract; run `python3 references/schemas/validate-composition.py` on the output.
+6. Seed DOC tasks per composer output (gate policy + one task per catalog type + one per `policyRole`). Do not mark gate policy Active without human confirm.
+7. Add starter edge: Bootstrap/Implementation Plan → defines → Implementation Gate Policy.
 
 When `gateMode=legacy`, skip dynamic composer; seed only Stage Map reference node and static gate behavior (v0.4 path).
 
@@ -110,6 +115,7 @@ Render:
 
 - `references/templates/AGENTS.md.tpl` -> `{target}/AGENTS.md`
 - `references/templates/config.json.tpl` -> `{target}/.adf/config.json`
+- When `gateMode=full`: `references/templates/composition.json.tpl` -> `{target}/.adf/composition.json` (if not already written in Phase 2.5)
 
 Copy project workflow skills into `{target}/{SKILLS_INSTALL_DIR}/`:
 
@@ -121,15 +127,22 @@ Copy project workflow skills into `{target}/{SKILLS_INSTALL_DIR}/`:
 - implementation workflow
 - reconciliation
 
-Replace all placeholders. Include delivery profile JSON arrays in config (`DELIVERY_SURFACES_JSON`, `DELIVERY_STACKS_JSON`, `GATE_MODE`, `PROFILE_ID`).
+Replace all placeholders. Include `FACTORY_TEMPLATE_ID` and delivery profile JSON arrays in config (`DELIVERY_SURFACES_JSON`, `DELIVERY_STACKS_JSON`, `GATE_MODE`, `PROFILE_ID`).
 
 Copy bundled workflow references into `{target}/references/schemas/` when the instance keeps repo mirrors:
 
 - `delivery-workflow-stage-map.md`
 - `delivery-profile-matrix.md`
 - `policy-composer.md`
+- `factory-template.schema.json`
+- `stack-adapter-manifest.schema.json`
+- `composition-contract.schema.json`
+- `composition.factory.web-saas.001.example.json`
+- `validate-composition.py`
 
-Copy preset manifests to `{target}/references/presets/` when stacks were selected.
+Copy selected Factory Template manifests to `{target}/references/templates/factories/`.
+
+Copy selected Stack Adapter manifests to `{target}/references/presets/` when stacks were selected.
 
 ## Phase 4 — Install automations
 

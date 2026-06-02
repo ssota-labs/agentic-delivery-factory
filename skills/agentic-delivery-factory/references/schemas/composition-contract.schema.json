@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "adf.composition-contract.v1",
+  "title": "ADF Composition Contract v1",
+  "description": "Machine-readable trace of Factory Template + Stack Adapter merge. Written by the bootstrap agent during Phase 2.5/3. Human-readable SSOT remains the Draft Implementation Gate Policy node.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "compositionVersion",
+    "compositionId",
+    "composedAt",
+    "factoryTemplateId",
+    "surface",
+    "gateMode",
+    "selectedAdapters",
+    "requiredNodeTypes",
+    "policySeeds",
+    "policyContributions",
+    "adapterSkillInstallPlan",
+    "repoScaffoldPlan",
+    "implementationGateRows",
+    "verificationGateRows",
+    "conflicts",
+    "sourceTrace"
+  ],
+  "properties": {
+    "compositionVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "compositionId": {
+      "type": "string",
+      "pattern": "^comp\\.[a-z0-9.-]+$"
+    },
+    "composedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "factoryTemplateId": {
+      "type": "string",
+      "pattern": "^factory\\.[a-z0-9-]+\\.[0-9]{3}$"
+    },
+    "surface": {
+      "type": "string",
+      "pattern": "^surf\\.[a-z0-9-]+$"
+    },
+    "gateMode": {
+      "type": "string",
+      "enum": ["full", "legacy"]
+    },
+    "legacyProfileId": {
+      "type": "string"
+    },
+    "selectedAdapters": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^port\\.[a-z0-9-]+$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^apt\\.[a-z0-9-]+$"
+      }
+    },
+    "requiredNodeTypes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "projectPersistent",
+        "environmentPolicy",
+        "workSpecific"
+      ],
+      "properties": {
+        "projectPersistent": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "environmentPolicy": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "workSpecific": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "policySeeds": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/mergedPolicySeed" }
+    },
+    "policyContributions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/mergedPolicyContribution" }
+    },
+    "adapterSkillInstallPlan": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/adapterSkillInstall" }
+    },
+    "repoScaffoldPlan": {
+      "$ref": "#/$defs/repoScaffoldPlan"
+    },
+    "implementationGateRows": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/gateRow" }
+    },
+    "verificationGateRows": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/gateRow" }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/conflict" }
+    },
+    "sourceTrace": {
+      "$ref": "#/$defs/sourceTrace"
+    }
+  },
+  "$defs": {
+    "mergedPolicySeed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policyRole", "title", "sourceAdapters"],
+      "properties": {
+        "policyRole": {
+          "type": "string",
+          "pattern": "^policy\\.[a-z0-9-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "catalogTypeRef": {
+          "type": "string"
+        },
+        "sourceAdapters": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^apt\\.[a-z0-9-]+$"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "mergedPolicyContribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "targetPolicyRole",
+        "targetCatalogType",
+        "requiredSections",
+        "sectionGuidance",
+        "sourceAdapters"
+      ],
+      "properties": {
+        "targetPolicyRole": {
+          "type": "string",
+          "pattern": "^policy\\.[a-z0-9-]+$"
+        },
+        "targetCatalogType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requiredSections": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "sectionGuidance": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sourceAdapters": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^apt\\.[a-z0-9-]+$"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "adapterSkillInstall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapterId", "skillRefs"],
+      "properties": {
+        "adapterId": {
+          "type": "string",
+          "pattern": "^apt\\.[a-z0-9-]+$"
+        },
+        "skillRefs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "repoScaffoldPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["base", "includes", "paths"],
+      "properties": {
+        "base": {
+          "type": "string",
+          "minLength": 1
+        },
+        "includes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "paths": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "adapterFragments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["adapterId", "fragments"],
+            "properties": {
+              "adapterId": {
+                "type": "string",
+                "pattern": "^apt\\.[a-z0-9-]+$"
+              },
+              "fragments": {
+                "type": "array",
+                "items": { "type": "string", "minLength": 1 },
+                "uniqueItems": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "gateRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkId", "gateClass", "summary", "sourceTrace"],
+      "properties": {
+        "checkId": { "type": "string", "minLength": 1 },
+        "gateClass": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "blocks": { "type": "string" },
+        "requiredPolicyRoles": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^policy\\.[a-z0-9-]+$" },
+          "uniqueItems": true
+        },
+        "requiredCatalogTypes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "skillRef": { "type": "string", "minLength": 1 },
+        "sourceTrace": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "blockingActive"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "message": { "type": "string", "minLength": 1 },
+        "blockingActive": { "type": "boolean" }
+      }
+    },
+    "sourceTrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "factoryTemplatePath",
+        "adapterManifestPaths",
+        "profileMatrixVersion",
+        "gatePolicyNodeKey"
+      ],
+      "properties": {
+        "factoryTemplatePath": { "type": "string", "minLength": 1 },
+        "adapterManifestPaths": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "profileMatrixVersion": { "type": "string", "minLength": 1 },
+        "gatePolicyNodeKey": { "type": "string", "minLength": 1 },
+        "composerProcedurePath": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
