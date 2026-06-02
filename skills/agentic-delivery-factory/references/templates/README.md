@@ -22,6 +22,20 @@
 | `{{DELIVERY_STACKS_JSON}}` | JSON array, e.g. `["apt.vercel","apt.supabase"]` |
 | `{{GATE_MODE}}` | `full` or `legacy` |
 | `{{PROFILE_ID}}` | resolved profile alias or empty string |
+| `{{COMPOSITION_ID}}` | generated composition contract ID, e.g. `comp.my-project.001` |
+| `{{COMPOSED_AT}}` | ISO-8601 timestamp for composition merge |
+| `{{PRIMARY_SURFACE}}` | primary surface ID, e.g. `surf.web-saas` |
+| `{{PROFILE_MATRIX_VERSION}}` | bundled delivery profile matrix version |
+| `{{SELECTED_ADAPTERS_JSON}}` | JSON object mapping `port.*` → `apt.*` |
+| `{{REQUIRED_NODE_TYPES_JSON}}` | JSON object with `projectPersistent`, `environmentPolicy`, `workSpecific` arrays |
+| `{{POLICY_SEEDS_JSON}}` | merged policy seed array from composer |
+| `{{POLICY_CONTRIBUTIONS_JSON}}` | merged policy contribution array from composer |
+| `{{ADAPTER_SKILL_INSTALL_PLAN_JSON}}` | adapter skill install plan array |
+| `{{REPO_SCAFFOLD_PLAN_JSON}}` | repo scaffold plan object from Factory Template + adapters |
+| `{{IMPLEMENTATION_GATE_ROWS_JSON}}` | implementation gate rows array |
+| `{{VERIFICATION_GATE_ROWS_JSON}}` | verification gate rows array |
+| `{{CONFLICTS_JSON}}` | conflict array (`[]` when clean) |
+| `{{ADAPTER_MANIFEST_PATHS_JSON}}` | JSON array of selected adapter manifest paths |
 
 `.adf/config.json` also records:
 
@@ -32,6 +46,9 @@
 | `workflowVersion` | stage map version (currently `1.3`) |
 | `factoryTemplate.factoryTemplateId` | selected user-facing Factory Template |
 | `factoryTemplate.sourcePath` | copied Factory Template JSON source path |
+| `composition.compositionId` | generated Composition Contract ID |
+| `composition.sourcePath` | repo-local machine-readable composition trace |
+| `composition.schemaPath` | JSON schema for `.adf/composition.json` |
 | `deliveryProfile.surfaces` | selected surface IDs |
 | `deliveryProfile.stacks` | selected stack preset IDs |
 | `deliveryProfile.gateMode` | `full` (dynamic composer) or `legacy` (v0.4 static gate) |

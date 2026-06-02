@@ -103,8 +103,9 @@ When `deliveryProfile.gateMode != legacy`:
 2. Run `python3 references/presets/validate-manifests.py` on bundled Stack Adapter manifests (from skill package root).
 3. Resolve required Stack Ports to selected Stack Adapters, starting from the Factory Template defaults.
 4. Execute composer steps 1–10; write **Draft** `{PROJECT_SLUG}.delivery-workflow.implementation-gate-policy` node in instance Nodes DB.
-5. Seed DOC tasks per composer output (gate policy + one task per catalog type + one per `policyRole`). Do not mark gate policy Active without human confirm.
-6. Add starter edge: Bootstrap/Implementation Plan → defines → Implementation Gate Policy.
+5. Render `references/templates/composition.json.tpl` → `{target}/.adf/composition.json` using the same merged contract; run `python3 references/schemas/validate-composition.py` on the output.
+6. Seed DOC tasks per composer output (gate policy + one task per catalog type + one per `policyRole`). Do not mark gate policy Active without human confirm.
+7. Add starter edge: Bootstrap/Implementation Plan → defines → Implementation Gate Policy.
 
 When `gateMode=legacy`, skip dynamic composer; seed only Stage Map reference node and static gate behavior (v0.4 path).
 
@@ -114,6 +115,7 @@ Render:
 
 - `references/templates/AGENTS.md.tpl` -> `{target}/AGENTS.md`
 - `references/templates/config.json.tpl` -> `{target}/.adf/config.json`
+- When `gateMode=full`: `references/templates/composition.json.tpl` -> `{target}/.adf/composition.json` (if not already written in Phase 2.5)
 
 Copy project workflow skills into `{target}/{SKILLS_INSTALL_DIR}/`:
 
@@ -134,6 +136,9 @@ Copy bundled workflow references into `{target}/references/schemas/` when the in
 - `policy-composer.md`
 - `factory-template.schema.json`
 - `stack-adapter-manifest.schema.json`
+- `composition-contract.schema.json`
+- `composition.factory.web-saas.001.example.json`
+- `validate-composition.py`
 
 Copy selected Factory Template manifests to `{target}/references/templates/factories/`.
 

@@ -207,6 +207,7 @@ This repository is a **skills and documentation meta-factory** — there is no d
 | --- | --- |
 | JSON config | `python3 -m json.tool package.json >/dev/null` and `python3 -m json.tool .adf/config.json >/dev/null` |
 | Preset manifests | `python3 skills/agentic-delivery-factory/references/presets/validate-manifests.py` |
+| Composition contract | `python3 skills/agentic-delivery-factory/references/schemas/validate-composition.py` |
 | Legacy slug grep | `rg "legacy repo slug" .` — matches only in docs describing the check are OK |
 
 There is no dedicated linter or test runner. `package.json` is publish metadata only (no `dependencies` or `scripts`).

@@ -51,7 +51,7 @@ Read the matching reference before writing files or Notion data:
 | Intent | Read |
 |---|---|
 | New instance bootstrap | `references/init/wizard.md` |
-| Factory Template / Stack Adapter composition / policy composer | `references/templates/factories/*.json`, `references/schemas/factory-template.schema.json`, `references/schemas/delivery-profile-matrix.md`, `references/schemas/policy-composer.md` |
+| Factory Template / Stack Adapter composition / policy composer | `references/templates/factories/*.json`, `references/schemas/factory-template.schema.json`, `references/schemas/composition-contract.schema.json`, `references/templates/composition.json.tpl`, `references/schemas/delivery-profile-matrix.md`, `references/schemas/policy-composer.md` |
 | Adopt an existing repo/project | `references/init/adopt-existing.md` |
 | Verify an existing instance schema | `references/init/verify-schema.md` |
 | Catalog duplicate/adopt + migration | `references/catalog/migrations.md` |
