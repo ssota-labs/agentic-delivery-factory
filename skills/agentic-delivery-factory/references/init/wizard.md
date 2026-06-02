@@ -95,6 +95,8 @@ Link starter tasks to `{TASK_PREFIX}-GOAL-001` through the `목표` relation.
 
 ## Phase 2.5 — Delivery profile composer
 
+The **composer is the bootstrap agent** (no CLI). Follow `references/schemas/policy-composer.md` steps 1–10 in this phase.
+
 When `deliveryProfile.gateMode != legacy`:
 
 1. Read selected Factory Template JSON, `references/schemas/delivery-profile-matrix.md`, and `references/schemas/policy-composer.md`.

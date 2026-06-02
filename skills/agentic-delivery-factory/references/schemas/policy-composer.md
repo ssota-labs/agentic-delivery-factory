@@ -4,6 +4,19 @@
 
 **Runtime SSOT for instance bootstrap**: follow this bundled procedure. Read inputs from repo refs only — not factory Notion.
 
+## Execution model
+
+**Composer = bootstrap agent.** There is no separate CLI or batch tool. The agent reads Factory Template + Stack Adapter manifests, applies the deterministic steps below, and writes Notion nodes/tasks plus optional repo traces.
+
+| Artifact | Who writes it |
+|---|---|
+| Implementation Gate Policy (Draft) | Agent during Phase 2.5 |
+| Seeded DOC tasks | Agent during Phase 2.5 |
+| `.adf/composition.json` (optional) | Agent after merge — machine-readable Composition Contract trace; same facts as gate policy **Composer assumptions** |
+| Merged policy prose | Later via documentation-workflow / doc-coauthoring on seeded DOC tasks |
+
+Only automated check in-repo: `python3 references/presets/validate-manifests.py` (manifest schema validation, not composition).
+
 ## Inputs (read bundled paths)
 
 | Input | Path |
@@ -36,7 +49,7 @@ Composer MUST NOT set gate policy **Active** without explicit human confirmation
 | 6 | Union Matrix §6.2–§6.4 for resolved legacy reference profile when alias matches; do not drop Factory Template or surface-required items |
 | 7 | **Stricter union** with Stage Map §6/§7 applicable rows (R-003) |
 | 8 | Dedupe and merge (§7 below); surface conflicts in **Composer assumptions** |
-| 9 | Write **Draft** gate policy node: Factory Template trace, required catalog types, required policies, implementation gate table, verification gate table, source trace |
+| 9 | Write **Draft** gate policy node: Factory Template trace, required catalog types, required policies, implementation gate table, verification gate table, source trace. Optionally write `{target}/.adf/composition.json` with the same merged contract (see Composition Contract shape in factory design node) |
 | 10 | Seed DOC tasks: gate policy authoring + all merged catalog types + policy roles |
 
 ## Dedupe and merge rules
